@@ -105,4 +105,14 @@ public class Process {
             this.started = true;
         }
     }
+    public static ArrayList<Process> copyList(List<Process> input) {
+        ArrayList<Process> copy = new ArrayList<>();
+        for (Process p : input) {
+            Process newP = new Process(p.name, p.arrivalTime, p.totalBurstTime, p.initialPriority, p.initialQuantum);
+            newP.setDynamicPriority(p.getDynamicPriority());
+            copy.add(newP);
+        }
+        return copy;
+    }
 }
+
