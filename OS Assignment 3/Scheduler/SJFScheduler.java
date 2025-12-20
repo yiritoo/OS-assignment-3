@@ -8,69 +8,56 @@ public class SJFScheduler implements Scheduler {
     @Override
     public ScheduleResult schedule(List<Process> input, int contextSwitchTime) {
         ScheduleResult result = new ScheduleResult();
-
-        // Work on a copy of input to avoid mutating it
         List<Process> processes = Process.copyList(input);
         result.processes = processes;
 
-        // FIXED: Used Setters and correct naming from Process.java
         for (Process p : processes) {
             p.setRemainingBurstTime(p.getTotalBurstTime());
             p.setWaitingTime(0);
             p.setTurnaroundTime(0);
+            p.setCompletionTime(0);
+            p.setStartTime(-1);
         }
 
+        int currentTime = 0;
+        int completed = 0;
         int n = processes.size();
-        int finished = 0;
-        int time = 0;
+        Process lastRanProcess = null;
 
-        Process current = null;
+        while (completed < n) {
+            Process current = pickShortestRemaining(processes, currentTime);
 
-        while (finished < n) {
-            Process next = pickShortestRemaining(processes, time);
-
-            // Idle CPU
-            if (next == null) {
-                time += 1;
-                current = null;
+            if (current == null) {
+                currentTime++;
                 continue;
             }
 
-            // Context switch logic
-            if (current != null && current != next) {
-                if (contextSwitchTime > 0) {
-                    time += contextSwitchTime;
+            if (lastRanProcess != null && current != lastRanProcess) {
+                for (int i = 0; i < contextSwitchTime; i++) {
+                    currentTime++;
                 }
+                current = pickShortestRemaining(processes, currentTime);
+                if (current == null) continue;
             }
 
-            // After context switch, pick again
-            next = pickShortestRemaining(processes, time);
-            if (next == null) {
-                time += 1;
-                current = null;
-                continue;
+            if (!current.hasStarted()) {
+                current.setStartTime(currentTime);
             }
-            current = next;
 
-            // FIXED: Used Getter/Setter for remaining time
-            current.setRemainingBurstTime(current.getRemainingBurstTime() - 1);
-            time += 1;
+            result.executionOrder.add(current.getName());
+            current.execute(1);
+            currentTime++;
 
-            // If process finished, record stats
-            if (current.getRemainingBurstTime() == 0) {
-                finished++;
-
-                // FIXED: Used Setters and Getters for metrics
-                int completionTime = time;
-                int tat = completionTime - current.getArrivalTime();
-                current.setTurnaroundTime(tat);
-                current.setWaitingTime(tat - current.getTotalBurstTime());
-                current.setCompletionTime(completionTime); // Added to track finish time
+            if (current.isCompleted()) {
+                completed++;
+                current.setCompletionTime(currentTime);
                 current = null;
             }
+
+            lastRanProcess = current;
         }
-        getAverages(result);
 
+        calculateMetrics(result);
         return result;
     }
 
@@ -78,14 +65,12 @@ public class SJFScheduler implements Scheduler {
         Process shortest = null;
 
         for (Process p : processes) {
-            // FIXED: Replaced all .remainingTime and .arrivalTime with Getters
             if (p.getArrivalTime() <= time && p.getRemainingBurstTime() > 0) {
                 if (shortest == null) {
                     shortest = p;
                 } else if (p.getRemainingBurstTime() < shortest.getRemainingBurstTime()) {
                     shortest = p;
                 } else if (p.getRemainingBurstTime() == shortest.getRemainingBurstTime()) {
-                    // Tie-breakers: Arrival time first, then Name
                     if (p.getArrivalTime() < shortest.getArrivalTime()) {
                         shortest = p;
                     } else if (p.getArrivalTime() == shortest.getArrivalTime()) {
@@ -95,18 +80,23 @@ public class SJFScheduler implements Scheduler {
                 }
             }
         }
-
         return shortest;
     }
 
-    private void getAverages(ScheduleResult result) {
+    private void calculateMetrics(ScheduleResult result) {
         double sumwaiting = 0;
         double sumturn = 0;
 
-        // FIXED: Used Getters for average calculations
         for (Process p : result.processes) {
-            sumwaiting += p.getWaitingTime();
-            sumturn += p.getTurnaroundTime();
+            int turnAround = p.getCompletionTime() - p.getArrivalTime();
+            p.setTurnaroundTime(turnAround);
+
+            int waiting = turnAround - p.getTotalBurstTime();
+            if (waiting < 0) waiting = 0;
+            p.setWaitingTime(waiting);
+
+            sumturn += turnAround;
+            sumwaiting += waiting;
         }
 
         int n = result.processes.size();
