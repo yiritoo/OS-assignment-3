@@ -13,11 +13,11 @@ public class SJFScheduler implements Scheduler {
         List<Process> processes = Process.copyList(input);
         result.processes = processes;
 
-        // Initialize remaining time
+        // FIXED: Used Setters and correct naming from Process.java
         for (Process p : processes) {
-            p.remainingTime = p.burstTime;
-            p.waitingTime = 0;
-            p.turnaroundTime = 0;
+            p.setRemainingBurstTime(p.getTotalBurstTime());
+            p.setWaitingTime(0);
+            p.setTurnaroundTime(0);
         }
 
         int n = processes.size();
@@ -36,15 +36,14 @@ public class SJFScheduler implements Scheduler {
                 continue;
             }
 
-            // Context switch
+            // Context switch logic
             if (current != null && current != next) {
-                // Pay the context switch overhead
                 if (contextSwitchTime > 0) {
                     time += contextSwitchTime;
                 }
             }
 
-            // After context switch time passes, pick the shortest process again
+            // After context switch, pick again
             next = pickShortestRemaining(processes, time);
             if (next == null) {
                 time += 1;
@@ -53,17 +52,20 @@ public class SJFScheduler implements Scheduler {
             }
             current = next;
 
-            // Execute for 1 time unit (preemptive granularity)
-            current.remainingTime -= 1;
+            // FIXED: Used Getter/Setter for remaining time
+            current.setRemainingBurstTime(current.getRemainingBurstTime() - 1);
             time += 1;
 
             // If process finished, record stats
-            if (current.remainingTime == 0) {
+            if (current.getRemainingBurstTime() == 0) {
                 finished++;
 
+                // FIXED: Used Setters and Getters for metrics
                 int completionTime = time;
-                current.turnaroundTime = completionTime - current.arrivalTime;
-                current.waitingTime = current.turnaroundTime - current.burstTime;
+                int tat = completionTime - current.getArrivalTime();
+                current.setTurnaroundTime(tat);
+                current.setWaitingTime(tat - current.getTotalBurstTime());
+                current.setCompletionTime(completionTime); // Added to track finish time
                 current = null;
             }
         }
@@ -76,16 +78,18 @@ public class SJFScheduler implements Scheduler {
         Process shortest = null;
 
         for (Process p : processes) {
-            if (p.arrivalTime <= time && p.remainingTime > 0) {
+            // FIXED: Replaced all .remainingTime and .arrivalTime with Getters
+            if (p.getArrivalTime() <= time && p.getRemainingBurstTime() > 0) {
                 if (shortest == null) {
                     shortest = p;
-                } else if (p.remainingTime < shortest.remainingTime) {
+                } else if (p.getRemainingBurstTime() < shortest.getRemainingBurstTime()) {
                     shortest = p;
-                } else if (p.remainingTime == shortest.remainingTime) {
-                    if (p.arrivalTime < shortest.arrivalTime) {
+                } else if (p.getRemainingBurstTime() == shortest.getRemainingBurstTime()) {
+                    // Tie-breakers: Arrival time first, then Name
+                    if (p.getArrivalTime() < shortest.getArrivalTime()) {
                         shortest = p;
-                    } else if (p.arrivalTime == shortest.arrivalTime) {
-                        if (p.name.compareTo(shortest.name) < 0)
+                    } else if (p.getArrivalTime() == shortest.getArrivalTime()) {
+                        if (p.getName().compareTo(shortest.getName()) < 0)
                             shortest = p;
                     }
                 }
@@ -99,9 +103,10 @@ public class SJFScheduler implements Scheduler {
         double sumwaiting = 0;
         double sumturn = 0;
 
+        // FIXED: Used Getters for average calculations
         for (Process p : result.processes) {
-            sumwaiting += p.waitingTime;
-            sumturn += p.turnaroundTime;
+            sumwaiting += p.getWaitingTime();
+            sumturn += p.getTurnaroundTime();
         }
 
         int n = result.processes.size();

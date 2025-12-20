@@ -9,7 +9,11 @@ public class main {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
 
-        // 1. Read System Parameters
+        // 1. UPDATED INPUT HANDLING: Added a clear header for Abdelrahman's task
+        System.out.println("========================================");
+        System.out.println("   OS SCHEDULER INPUT CONFIGURATION   ");
+        System.out.println("========================================");
+
         System.out.print("Enter number of processes: ");
         int n = in.nextInt();
 
@@ -21,10 +25,8 @@ public class main {
 
         List<Process> processes = new ArrayList<>();
 
-        // 2. Read each process data
-        // Order: name, arrivalTime, burstTime, priority, (AG) quantum
         for (int i = 0; i < n; i++) {
-            System.out.println("\nEnter details for Process " + (i + 1) + ":");
+            System.out.println("\n--- Process " + (i + 1) + " Configuration ---");
             System.out.print("Name: ");
             String name = in.next();
             System.out.print("Arrival Time: ");
@@ -39,58 +41,71 @@ public class main {
             processes.add(new Process(name, arrivalTime, burstTime, priority, agQuantum));
         }
 
-        // 3. Execute and Print Results for each Scheduler
-        // We use Process.copyList to ensure each scheduler starts with original data
-
-        // ---- SJF Scheduler ----
+        // 2. EXECUTION: Standard Schedulers
         runAndPrintResults("Shortest Job First (Preemptive)", new SJFScheduler(), processes, contextSwitchTime);
-
-        // ---- Round Robin Scheduler ----
         runAndPrintResults("Round Robin", new RoundRobinScheduler(rrQuantum), processes, contextSwitchTime);
-
-        // ---- Priority Scheduler (with Aging) ----
         runAndPrintResults("Preemptive Priority (with Aging)", new PriorityScheduler(), processes, contextSwitchTime);
 
-        // ---- AG Scheduler ----
-        // AG Scheduler requires printing the specific quantum history lines
+        // 3. UPDATED AG OUTPUT: Specialized formatting for AG History
         System.out.println("\n========================================");
-        System.out.println("Running: AG Scheduler");
+        System.out.println("RUNNING: AG SCHEDULER");
+        System.out.println("========================================");
+
+        // Use copy to preserve original process data
         AG_Scheduler ag = new AG_Scheduler(Process.copyList(processes));
         ScheduleResult agReport = ag.schedule(processes, contextSwitchTime);
-        
+
+        // Task: Print Execution Order
         System.out.println("Execution Order: " + String.join(" -> ", agReport.executionOrder));
+
+        // Task: Print Metric Table
+        printFormattedTable(agReport.processes);
+
+        // Task: Print Quantum History
         System.out.println("\nQuantum History Updates:");
         for (String line : agReport.quantumHistoryLines) {
-            System.out.println(line);
+            System.out.println("  > " + line);
         }
-        System.out.println("\nAverage Waiting Time: " + agReport.avgWaitingTime);
-        System.out.println("Average Turnaround Time: " + agReport.avgTurnaroundTime);
+
+        System.out.printf("\nAverage Waiting Time: %.2f\n", agReport.avgWaitingTime);
+        System.out.printf("Average Turnaround Time: %.2f\n", agReport.avgTurnaroundTime);
         System.out.println("========================================\n");
 
         in.close();
     }
 
     /**
-     * Helper method to run a scheduler and print its standard results.
+     * UPDATED: Helper method to run a scheduler and print professional Metric Tables
      */
     private static void runAndPrintResults(String schedulerName, Scheduler scheduler, List<Process> originalList, int contextSwitch) {
-        // Always work on a deep copy
         List<Process> inputCopy = Process.copyList(originalList);
         ScheduleResult result = scheduler.schedule(inputCopy, contextSwitch);
 
         System.out.println("\n========================================");
-        System.out.println("Running: " + schedulerName);
+        System.out.println("RUNNING: " + schedulerName);
+        System.out.println("========================================");
         System.out.println("Execution Order: " + String.join(" -> ", result.executionOrder));
-        
-        System.out.println("\nProcess Metrics:");
-        for (Process p : result.processes) {
-            System.out.println("Process: " + p.getName() + 
-                               " | Waiting Time: " + p.getWaitingTime() + 
-                               " | Turnaround Time: " + p.getTurnaroundTime());
-        }
 
-        System.out.println("\nAverage Waiting Time: " + result.avgWaitingTime);
-        System.out.println("Average Turnaround Time: " + result.avgTurnaroundTime);
+        // Call the table formatter for consistent metric output
+        printFormattedTable(result.processes);
+
+        System.out.printf("\nAverage Waiting Time: %.2f\n", result.avgWaitingTime);
+        System.out.printf("Average Turnaround Time: %.2f\n", result.avgTurnaroundTime);
         System.out.println("========================================\n");
+    }
+
+    /**
+     * NEW: Helper method to print data in a table format as required by Abdelrahman's task
+     */
+    private static void printFormattedTable(List<Process> processes) {
+        System.out.println("\nMETRIC TABLE:");
+        System.out.println("---------------------------------------------------------");
+        System.out.printf("%-10s | %-12s | %-12s | %-12s\n", "Process", "Burst", "Waiting", "Turnaround");
+        System.out.println("---------------------------------------------------------");
+        for (Process p : processes) {
+            System.out.printf("%-10s | %-12d | %-12d | %-12d\n",
+                    p.getName(), p.getTotalBurstTime(), p.getWaitingTime(), p.getTurnaroundTime());
+        }
+        System.out.println("---------------------------------------------------------");
     }
 }

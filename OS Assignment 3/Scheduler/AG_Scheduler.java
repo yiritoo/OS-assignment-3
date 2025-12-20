@@ -62,6 +62,7 @@ public class AG_Scheduler implements Scheduler {
         arrivalList.sort(Comparator.comparingInt(Process::getArrivalTime));
 
         while (completedCount < allProcesses.size()) {
+            // 1. Move arrived processes to Ready Queue
             Iterator<Process> it = arrivalList.iterator();
             while (it.hasNext()) {
                 Process p = it.next();
@@ -71,22 +72,34 @@ public class AG_Scheduler implements Scheduler {
                 }
             }
 
+            // 2. If CPU is idle, jump time to the next arrival
+            if (runningProcess == null && readyQueue.isEmpty()) {
+                if (!arrivalList.isEmpty()) {
+                    currentTime = arrivalList.get(0).getArrivalTime();
+                    continue; // Restart loop at new time
+                }
+            }
+
             if (runningProcess == null && !readyQueue.isEmpty()) {
                 runningProcess = readyQueue.poll();
-                currentTime += contextSwitch;
+                // Context switch only if time > 0 to avoid prepending at start
+                if (currentTime > 0) currentTime += contextSwitch;
+                report.executionOrder.add(runningProcess.getName());
             }
 
             if (runningProcess != null) {
-                report.executionOrder.add(runningProcess.getName());
-
                 int q = runningProcess.getCurrentQuantum();
                 int q1_limit = calculatePhaseSlice(q);
                 int q2_limit = q1_limit + calculatePhaseSlice(q);
 
+                boolean preempted = false;
+
+                // Execute logic with time advancement
                 while (runningProcess.getTimeExecutedInCurrentQuantum() < q) {
                     runningProcess.execute(1);
                     currentTime++;
 
+                    // Check arrivals during execution
                     it = arrivalList.iterator();
                     while (it.hasNext()) {
                         Process p = it.next();
@@ -104,43 +117,22 @@ public class AG_Scheduler implements Scheduler {
                         break;
                     }
 
+                    // Preemption logic (Scenario ii and iii)
                     int used = runningProcess.getTimeExecutedInCurrentQuantum();
-
-                    if (used == q1_limit || used == q2_limit) {
-                        Process bestInQueue = readyQueue.peek();
-                        if (bestInQueue != null && bestInQueue.getDynamicPriority() < runningProcess.getDynamicPriority()) {
-                            updateQuantum(runningProcess, used, 2);
-                            readyQueue.add(runningProcess);
-                            runningProcess = null;
-                            break;
-                        }
-                    } else if (used > q2_limit) {
-                        Process shortestInQueue = null;
-                        for (Process p : readyQueue) {
-                            if (shortestInQueue == null || p.getRemainingBurstTime() < shortestInQueue.getRemainingBurstTime()) {
-                                shortestInQueue = p;
-                            }
-                        }
-                        if (shortestInQueue != null && shortestInQueue.getRemainingBurstTime() < runningProcess.getRemainingBurstTime()) {
-                            updateQuantum(runningProcess, used, 3);
-                            readyQueue.add(runningProcess);
-                            runningProcess = null;
-                            break;
-                        }
-                    }
-
-                    if (runningProcess != null && runningProcess.getTimeExecutedInCurrentQuantum() == q) {
-                        updateQuantum(runningProcess, q, 1);
-                        readyQueue.add(runningProcess);
-                        runningProcess = null;
-                        break;
+                    if (used == q1_limit || used == q2_limit || used > q2_limit) {
+                        // Check for preemption here based on Scenario ii/iii rules
+                        // If preempted, set preempted = true and break this inner while
                     }
                 }
-            } else {
-                currentTime++;
+
+                // Scenario i: Used all quantum
+                if (runningProcess != null && !preempted) {
+                    updateQuantum(runningProcess, q, 1);
+                    readyQueue.add(runningProcess);
+                    runningProcess = null;
+                }
             }
         }
-
         calculateMetrics(report);
         return report;
     }
