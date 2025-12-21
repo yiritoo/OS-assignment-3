@@ -1,0 +1,2457 @@
+[
+  {
+    "testFile": "AG_test1.json",
+    "scheduler": "AG",
+    "actualOutput": {
+      "executionOrder": [
+        "P1",
+        "P3",
+        "P3",
+        "P3",
+        "P3",
+        "P3",
+        "P1",
+        "P1",
+        "P1",
+        "P1",
+        "P1",
+        "P4",
+        "P2"
+      ],
+      "averageWaitingTime": 14.0,
+      "averageTurnaroundTime": 23.5,
+      "processes": [
+        {
+          "name": "P1",
+          "waitingTime": 11,
+          "turnaroundTime": 28
+        },
+        {
+          "name": "P2",
+          "waitingTime": 30,
+          "turnaroundTime": 36
+        },
+        {
+          "name": "P3",
+          "waitingTime": 2,
+          "turnaroundTime": 13
+        },
+        {
+          "name": "P4",
+          "waitingTime": 13,
+          "turnaroundTime": 17
+        }
+      ]
+    },
+    "expectedOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P3",
+        "P2",
+        "P1",
+        "P3",
+        "P4",
+        "P3",
+        "P1",
+        "P4"
+      ],
+      "processResults": [
+        {
+          "name": "P1",
+          "waitingTime": 19.0,
+          "turnaroundTime": 36.0,
+          "quantumHistory": [
+            7.0,
+            10.0,
+            14.0,
+            0.0
+          ]
+        },
+        {
+          "name": "P2",
+          "waitingTime": 4.0,
+          "turnaroundTime": 10.0,
+          "quantumHistory": [
+            9.0,
+            12.0,
+            0.0
+          ]
+        },
+        {
+          "name": "P3",
+          "waitingTime": 10.0,
+          "turnaroundTime": 21.0,
+          "quantumHistory": [
+            4.0,
+            6.0,
+            8.0,
+            0.0
+          ]
+        },
+        {
+          "name": "P4",
+          "waitingTime": 19.0,
+          "turnaroundTime": 23.0,
+          "quantumHistory": [
+            6.0,
+            8.0,
+            0.0
+          ]
+        }
+      ],
+      "averageWaitingTime": 13.0,
+      "averageTurnaroundTime": 22.5
+    }
+  },
+  {
+    "testFile": "AG_test2.json",
+    "scheduler": "AG",
+    "actualOutput": {
+      "executionOrder": [
+        "P2",
+        "P2",
+        "P2",
+        "P3",
+        "P3",
+        "P3",
+        "P3",
+        "P1",
+        "P1",
+        "P1",
+        "P1",
+        "P4",
+        "P4",
+        "P4",
+        "P5",
+        "P5",
+        "P5",
+        "P5"
+      ],
+      "averageWaitingTime": 18.8,
+      "averageTurnaroundTime": 27.8,
+      "processes": [
+        {
+          "name": "P1",
+          "waitingTime": 20,
+          "turnaroundTime": 30
+        },
+        {
+          "name": "P2",
+          "waitingTime": 0,
+          "turnaroundTime": 8
+        },
+        {
+          "name": "P3",
+          "waitingTime": 8,
+          "turnaroundTime": 20
+        },
+        {
+          "name": "P4",
+          "waitingTime": 30,
+          "turnaroundTime": 36
+        },
+        {
+          "name": "P5",
+          "waitingTime": 36,
+          "turnaroundTime": 45
+        }
+      ]
+    },
+    "expectedOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P3",
+        "P2",
+        "P4",
+        "P3",
+        "P4",
+        "P3",
+        "P5",
+        "P1",
+        "P4",
+        "P1",
+        "P5",
+        "P4",
+        "P5"
+      ],
+      "processResults": [
+        {
+          "name": "P1",
+          "waitingTime": 25.0,
+          "turnaroundTime": 35.0,
+          "quantumHistory": [
+            4.0,
+            6.0,
+            8.0,
+            0.0
+          ]
+        },
+        {
+          "name": "P2",
+          "waitingTime": 3.0,
+          "turnaroundTime": 11.0,
+          "quantumHistory": [
+            5.0,
+            7.0,
+            0.0
+          ]
+        },
+        {
+          "name": "P3",
+          "waitingTime": 11.0,
+          "turnaroundTime": 23.0,
+          "quantumHistory": [
+            6.0,
+            8.0,
+            12.0,
+            0.0
+          ]
+        },
+        {
+          "name": "P4",
+          "waitingTime": 33.0,
+          "turnaroundTime": 39.0,
+          "quantumHistory": [
+            3.0,
+            4.0,
+            6.0,
+            8.0,
+            0.0
+          ]
+        },
+        {
+          "name": "P5",
+          "waitingTime": 36.0,
+          "turnaroundTime": 45.0,
+          "quantumHistory": [
+            4.0,
+            6.0,
+            8.0,
+            0.0
+          ]
+        }
+      ],
+      "averageWaitingTime": 21.6,
+      "averageTurnaroundTime": 30.6
+    }
+  },
+  {
+    "testFile": "AG_test3.json",
+    "scheduler": "AG",
+    "actualOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P4",
+        "P3",
+        "P1",
+        "P1",
+        "P6",
+        "P6",
+        "P6",
+        "P1",
+        "P1",
+        "P1",
+        "P1",
+        "P5"
+      ],
+      "averageWaitingTime": 8.5,
+      "averageTurnaroundTime": 15.166666666666666,
+      "processes": [
+        {
+          "name": "P1",
+          "waitingTime": 15,
+          "turnaroundTime": 35
+        },
+        {
+          "name": "P2",
+          "waitingTime": 5,
+          "turnaroundTime": 9
+        },
+        {
+          "name": "P3",
+          "waitingTime": 8,
+          "turnaroundTime": 11
+        },
+        {
+          "name": "P4",
+          "waitingTime": 2,
+          "turnaroundTime": 4
+        },
+        {
+          "name": "P5",
+          "waitingTime": 20,
+          "turnaroundTime": 25
+        },
+        {
+          "name": "P6",
+          "waitingTime": 1,
+          "turnaroundTime": 7
+        }
+      ]
+    },
+    "expectedOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P1",
+        "P4",
+        "P3",
+        "P1",
+        "P6",
+        "P5",
+        "P6",
+        "P1",
+        "P5"
+      ],
+      "processResults": [
+        {
+          "name": "P1",
+          "waitingTime": 17.0,
+          "turnaroundTime": 37.0,
+          "quantumHistory": [
+            8.0,
+            12.0,
+            17.0,
+            23.0,
+            0.0
+          ]
+        },
+        {
+          "name": "P2",
+          "waitingTime": 1.0,
+          "turnaroundTime": 5.0,
+          "quantumHistory": [
+            6.0,
+            0.0
+          ]
+        },
+        {
+          "name": "P3",
+          "waitingTime": 7.0,
+          "turnaroundTime": 10.0,
+          "quantumHistory": [
+            5.0,
+            0.0
+          ]
+        },
+        {
+          "name": "P4",
+          "waitingTime": 1.0,
+          "turnaroundTime": 3.0,
+          "quantumHistory": [
+            4.0,
+            0.0
+          ]
+        },
+        {
+          "name": "P5",
+          "waitingTime": 20.0,
+          "turnaroundTime": 25.0,
+          "quantumHistory": [
+            7.0,
+            10.0,
+            0.0
+          ]
+        },
+        {
+          "name": "P6",
+          "waitingTime": 3.0,
+          "turnaroundTime": 9.0,
+          "quantumHistory": [
+            3.0,
+            5.0,
+            0.0
+          ]
+        }
+      ],
+      "averageWaitingTime": 8.17,
+      "averageTurnaroundTime": 14.83
+    }
+  },
+  {
+    "testFile": "AG_test4.json",
+    "scheduler": "AG",
+    "actualOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P3",
+        "P4",
+        "P5"
+      ],
+      "averageWaitingTime": 1.2,
+      "averageTurnaroundTime": 4.6,
+      "processes": [
+        {
+          "name": "P1",
+          "waitingTime": 0,
+          "turnaroundTime": 3
+        },
+        {
+          "name": "P2",
+          "waitingTime": 1,
+          "turnaroundTime": 5
+        },
+        {
+          "name": "P3",
+          "waitingTime": 2,
+          "turnaroundTime": 4
+        },
+        {
+          "name": "P4",
+          "waitingTime": 1,
+          "turnaroundTime": 6
+        },
+        {
+          "name": "P5",
+          "waitingTime": 2,
+          "turnaroundTime": 5
+        }
+      ]
+    },
+    "expectedOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P3",
+        "P2",
+        "P4",
+        "P5"
+      ],
+      "processResults": [
+        {
+          "name": "P1",
+          "waitingTime": 0.0,
+          "turnaroundTime": 3.0,
+          "quantumHistory": [
+            10.0,
+            0.0
+          ]
+        },
+        {
+          "name": "P2",
+          "waitingTime": 3.0,
+          "turnaroundTime": 7.0,
+          "quantumHistory": [
+            12.0,
+            17.0,
+            0.0
+          ]
+        },
+        {
+          "name": "P3",
+          "waitingTime": 1.0,
+          "turnaroundTime": 3.0,
+          "quantumHistory": [
+            8.0,
+            0.0
+          ]
+        },
+        {
+          "name": "P4",
+          "waitingTime": 1.0,
+          "turnaroundTime": 6.0,
+          "quantumHistory": [
+            15.0,
+            0.0
+          ]
+        },
+        {
+          "name": "P5",
+          "waitingTime": 2.0,
+          "turnaroundTime": 5.0,
+          "quantumHistory": [
+            9.0,
+            0.0
+          ]
+        }
+      ],
+      "averageWaitingTime": 1.4,
+      "averageTurnaroundTime": 4.8
+    }
+  },
+  {
+    "testFile": "AG_test5.json",
+    "scheduler": "AG",
+    "actualOutput": {
+      "executionOrder": [
+        "P1",
+        "P4",
+        "P4",
+        "P4",
+        "P4",
+        "P4",
+        "P4",
+        "P4",
+        "P2",
+        "P2",
+        "P2",
+        "P2",
+        "P2",
+        "P2",
+        "P2",
+        "P2",
+        "P1",
+        "P1",
+        "P1",
+        "P1",
+        "P1",
+        "P1",
+        "P1",
+        "P1",
+        "P1",
+        "P1",
+        "P3",
+        "P3",
+        "P3",
+        "P3",
+        "P3",
+        "P3",
+        "P3",
+        "P3",
+        "P3",
+        "P5",
+        "P5",
+        "P5",
+        "P5",
+        "P5",
+        "P5",
+        "P5",
+        "P5",
+        "P6",
+        "P6",
+        "P6",
+        "P6",
+        "P6"
+      ],
+      "averageWaitingTime": 44.5,
+      "averageTurnaroundTime": 63.166666666666664,
+      "processes": [
+        {
+          "name": "P1",
+          "waitingTime": 33,
+          "turnaroundTime": 58
+        },
+        {
+          "name": "P2",
+          "waitingTime": 19,
+          "turnaroundTime": 37
+        },
+        {
+          "name": "P3",
+          "waitingTime": 55,
+          "turnaroundTime": 77
+        },
+        {
+          "name": "P4",
+          "waitingTime": 0,
+          "turnaroundTime": 15
+        },
+        {
+          "name": "P5",
+          "waitingTime": 72,
+          "turnaroundTime": 92
+        },
+        {
+          "name": "P6",
+          "waitingTime": 88,
+          "turnaroundTime": 100
+        }
+      ]
+    },
+    "expectedOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P1",
+        "P4",
+        "P3",
+        "P4",
+        "P2",
+        "P4",
+        "P5",
+        "P2",
+        "P1",
+        "P2",
+        "P6",
+        "P1",
+        "P3",
+        "P1",
+        "P5",
+        "P3",
+        "P6",
+        "P3",
+        "P5",
+        "P6",
+        "P5",
+        "P6"
+      ],
+      "processResults": [
+        {
+          "name": "P1",
+          "waitingTime": 40.0,
+          "turnaroundTime": 65.0,
+          "quantumHistory": [
+            5.0,
+            7.0,
+            10.0,
+            14.0,
+            16.0,
+            0.0
+          ]
+        },
+        {
+          "name": "P2",
+          "waitingTime": 25.0,
+          "turnaroundTime": 43.0,
+          "quantumHistory": [
+            4.0,
+            6.0,
+            8.0,
+            10.0,
+            0.0
+          ]
+        },
+        {
+          "name": "P3",
+          "waitingTime": 63.0,
+          "turnaroundTime": 85.0,
+          "quantumHistory": [
+            6.0,
+            8.0,
+            11.0,
+            16.0,
+            0.0
+          ]
+        },
+        {
+          "name": "P4",
+          "waitingTime": 7.0,
+          "turnaroundTime": 22.0,
+          "quantumHistory": [
+            3.0,
+            5.0,
+            7.0,
+            0.0
+          ]
+        },
+        {
+          "name": "P5",
+          "waitingTime": 77.0,
+          "turnaroundTime": 97.0,
+          "quantumHistory": [
+            7.0,
+            10.0,
+            14.0,
+            16.0,
+            0.0
+          ]
+        },
+        {
+          "name": "P6",
+          "waitingTime": 88.0,
+          "turnaroundTime": 100.0,
+          "quantumHistory": [
+            4.0,
+            6.0,
+            8.0,
+            11.0,
+            0.0
+          ]
+        }
+      ],
+      "averageWaitingTime": 50.0,
+      "averageTurnaroundTime": 68.67
+    }
+  },
+  {
+    "testFile": "AG_test6.json",
+    "scheduler": "AG",
+    "actualOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P4",
+        "P2",
+        "P5",
+        "P5",
+        "P5",
+        "P5",
+        "P5",
+        "P1",
+        "P1",
+        "P1",
+        "P1",
+        "P3",
+        "P3",
+        "P3",
+        "P3",
+        "P3",
+        "P3",
+        "P3",
+        "P6",
+        "P7"
+      ],
+      "averageWaitingTime": 22.142857142857142,
+      "averageTurnaroundTime": 32.142857142857146,
+      "processes": [
+        {
+          "name": "P1",
+          "waitingTime": 27,
+          "turnaroundTime": 41
+        },
+        {
+          "name": "P2",
+          "waitingTime": 9,
+          "turnaroundTime": 18
+        },
+        {
+          "name": "P3",
+          "waitingTime": 34,
+          "turnaroundTime": 50
+        },
+        {
+          "name": "P4",
+          "waitingTime": 4,
+          "turnaroundTime": 11
+        },
+        {
+          "name": "P5",
+          "waitingTime": 7,
+          "turnaroundTime": 18
+        },
+        {
+          "name": "P6",
+          "waitingTime": 37,
+          "turnaroundTime": 42
+        },
+        {
+          "name": "P7",
+          "waitingTime": 37,
+          "turnaroundTime": 45
+        }
+      ]
+    },
+    "expectedOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P1",
+        "P4",
+        "P3",
+        "P2",
+        "P1",
+        "P5",
+        "P6",
+        "P5",
+        "P6",
+        "P3",
+        "P5",
+        "P7",
+        "P1",
+        "P3",
+        "P7",
+        "P3",
+        "P7"
+      ],
+      "processResults": [
+        {
+          "name": "P1",
+          "waitingTime": 39.0,
+          "turnaroundTime": 53.0,
+          "quantumHistory": [
+            6.0,
+            8.0,
+            11.0,
+            15.0,
+            0.0
+          ]
+        },
+        {
+          "name": "P2",
+          "waitingTime": 11.0,
+          "turnaroundTime": 20.0,
+          "quantumHistory": [
+            8.0,
+            10.0,
+            0.0
+          ]
+        },
+        {
+          "name": "P3",
+          "waitingTime": 45.0,
+          "turnaroundTime": 61.0,
+          "quantumHistory": [
+            5.0,
+            7.0,
+            10.0,
+            14.0,
+            0.0
+          ]
+        },
+        {
+          "name": "P4",
+          "waitingTime": 4.0,
+          "turnaroundTime": 11.0,
+          "quantumHistory": [
+            10.0,
+            0.0
+          ]
+        },
+        {
+          "name": "P5",
+          "waitingTime": 19.0,
+          "turnaroundTime": 30.0,
+          "quantumHistory": [
+            4.0,
+            6.0,
+            8.0,
+            0.0
+          ]
+        },
+        {
+          "name": "P6",
+          "waitingTime": 13.0,
+          "turnaroundTime": 18.0,
+          "quantumHistory": [
+            7.0,
+            10.0,
+            0.0
+          ]
+        },
+        {
+          "name": "P7",
+          "waitingTime": 37.0,
+          "turnaroundTime": 45.0,
+          "quantumHistory": [
+            9.0,
+            12.0,
+            17.0,
+            0.0
+          ]
+        }
+      ],
+      "averageWaitingTime": 24.0,
+      "averageTurnaroundTime": 34.0
+    }
+  },
+  {
+    "testFile": "test_1.json",
+    "scheduler": "SJF",
+    "actualOutput": {
+      "executionOrder": [
+        "P1",
+        "P3",
+        "P4",
+        "P5",
+        "P2",
+        "P1"
+      ],
+      "averageWaitingTime": 6.0,
+      "averageTurnaroundTime": 9.6,
+      "processes": [
+        {
+          "name": "P1",
+          "waitingTime": 15,
+          "turnaroundTime": 23
+        },
+        {
+          "name": "P2",
+          "waitingTime": 10,
+          "turnaroundTime": 14
+        },
+        {
+          "name": "P3",
+          "waitingTime": 0,
+          "turnaroundTime": 2
+        },
+        {
+          "name": "P4",
+          "waitingTime": 2,
+          "turnaroundTime": 3
+        },
+        {
+          "name": "P5",
+          "waitingTime": 3,
+          "turnaroundTime": 6
+        }
+      ]
+    },
+    "expectedOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P4",
+        "P3",
+        "P2",
+        "P5",
+        "P1"
+      ],
+      "processResults": [
+        {
+          "name": "P1",
+          "waitingTime": 16.0,
+          "turnaroundTime": 24.0
+        },
+        {
+          "name": "P2",
+          "waitingTime": 7.0,
+          "turnaroundTime": 11.0
+        },
+        {
+          "name": "P3",
+          "waitingTime": 4.0,
+          "turnaroundTime": 6.0
+        },
+        {
+          "name": "P4",
+          "waitingTime": 1.0,
+          "turnaroundTime": 2.0
+        },
+        {
+          "name": "P5",
+          "waitingTime": 9.0,
+          "turnaroundTime": 12.0
+        }
+      ],
+      "averageWaitingTime": 7.4,
+      "averageTurnaroundTime": 11.0
+    }
+  },
+  {
+    "testFile": "test_1.json",
+    "scheduler": "Round Robin",
+    "actualOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P3",
+        "P1",
+        "P4",
+        "P5",
+        "P2",
+        "P1",
+        "P5",
+        "P1"
+      ],
+      "averageWaitingTime": 12.6,
+      "averageTurnaroundTime": 16.2,
+      "processes": [
+        {
+          "name": "P1",
+          "waitingTime": 19,
+          "turnaroundTime": 27
+        },
+        {
+          "name": "P2",
+          "waitingTime": 14,
+          "turnaroundTime": 18
+        },
+        {
+          "name": "P3",
+          "waitingTime": 4,
+          "turnaroundTime": 6
+        },
+        {
+          "name": "P4",
+          "waitingTime": 9,
+          "turnaroundTime": 10
+        },
+        {
+          "name": "P5",
+          "waitingTime": 17,
+          "turnaroundTime": 20
+        }
+      ]
+    },
+    "expectedOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P3",
+        "P1",
+        "P4",
+        "P5",
+        "P2",
+        "P1",
+        "P5",
+        "P1"
+      ],
+      "processResults": [
+        {
+          "name": "P1",
+          "waitingTime": 19.0,
+          "turnaroundTime": 27.0
+        },
+        {
+          "name": "P2",
+          "waitingTime": 14.0,
+          "turnaroundTime": 18.0
+        },
+        {
+          "name": "P3",
+          "waitingTime": 4.0,
+          "turnaroundTime": 6.0
+        },
+        {
+          "name": "P4",
+          "waitingTime": 9.0,
+          "turnaroundTime": 10.0
+        },
+        {
+          "name": "P5",
+          "waitingTime": 17.0,
+          "turnaroundTime": 20.0
+        }
+      ],
+      "averageWaitingTime": 12.6,
+      "averageTurnaroundTime": 16.2
+    }
+  },
+  {
+    "testFile": "test_1.json",
+    "scheduler": "Priority",
+    "actualOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P1",
+        "P4",
+        "P1",
+        "P3",
+        "P5"
+      ],
+      "averageWaitingTime": 8.0,
+      "averageTurnaroundTime": 11.6,
+      "processes": [
+        {
+          "name": "P1",
+          "waitingTime": 7,
+          "turnaroundTime": 15
+        },
+        {
+          "name": "P2",
+          "waitingTime": 1,
+          "turnaroundTime": 5
+        },
+        {
+          "name": "P3",
+          "waitingTime": 13,
+          "turnaroundTime": 15
+        },
+        {
+          "name": "P4",
+          "waitingTime": 6,
+          "turnaroundTime": 7
+        },
+        {
+          "name": "P5",
+          "waitingTime": 13,
+          "turnaroundTime": 16
+        }
+      ]
+    },
+    "expectedOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P1",
+        "P4",
+        "P1",
+        "P3",
+        "P5"
+      ],
+      "processResults": [
+        {
+          "name": "P1",
+          "waitingTime": 9.0,
+          "turnaroundTime": 17.0
+        },
+        {
+          "name": "P2",
+          "waitingTime": 1.0,
+          "turnaroundTime": 5.0
+        },
+        {
+          "name": "P3",
+          "waitingTime": 16.0,
+          "turnaroundTime": 18.0
+        },
+        {
+          "name": "P4",
+          "waitingTime": 6.0,
+          "turnaroundTime": 7.0
+        },
+        {
+          "name": "P5",
+          "waitingTime": 17.0,
+          "turnaroundTime": 20.0
+        }
+      ],
+      "averageWaitingTime": 9.8,
+      "averageTurnaroundTime": 13.4
+    }
+  },
+  {
+    "testFile": "test_2.json",
+    "scheduler": "SJF",
+    "actualOutput": {
+      "executionOrder": [
+        "P5",
+        "P2",
+        "P4",
+        "P1",
+        "P3"
+      ],
+      "averageWaitingTime": 8.2,
+      "averageTurnaroundTime": 12.8,
+      "processes": [
+        {
+          "name": "P1",
+          "waitingTime": 12,
+          "turnaroundTime": 18
+        },
+        {
+          "name": "P2",
+          "waitingTime": 3,
+          "turnaroundTime": 6
+        },
+        {
+          "name": "P3",
+          "waitingTime": 19,
+          "turnaroundTime": 27
+        },
+        {
+          "name": "P4",
+          "waitingTime": 7,
+          "turnaroundTime": 11
+        },
+        {
+          "name": "P5",
+          "waitingTime": 0,
+          "turnaroundTime": 2
+        }
+      ]
+    },
+    "expectedOutput": {
+      "executionOrder": [
+        "P5",
+        "P2",
+        "P4",
+        "P1",
+        "P3"
+      ],
+      "processResults": [
+        {
+          "name": "P1",
+          "waitingTime": 12.0,
+          "turnaroundTime": 18.0
+        },
+        {
+          "name": "P2",
+          "waitingTime": 3.0,
+          "turnaroundTime": 6.0
+        },
+        {
+          "name": "P3",
+          "waitingTime": 19.0,
+          "turnaroundTime": 27.0
+        },
+        {
+          "name": "P4",
+          "waitingTime": 7.0,
+          "turnaroundTime": 11.0
+        },
+        {
+          "name": "P5",
+          "waitingTime": 0.0,
+          "turnaroundTime": 2.0
+        }
+      ],
+      "averageWaitingTime": 8.2,
+      "averageTurnaroundTime": 12.8
+    }
+  },
+  {
+    "testFile": "test_2.json",
+    "scheduler": "Round Robin",
+    "actualOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P3",
+        "P4",
+        "P5",
+        "P1",
+        "P3",
+        "P4",
+        "P3"
+      ],
+      "averageWaitingTime": 16.6,
+      "averageTurnaroundTime": 21.2,
+      "processes": [
+        {
+          "name": "P1",
+          "waitingTime": 16,
+          "turnaroundTime": 22
+        },
+        {
+          "name": "P2",
+          "waitingTime": 4,
+          "turnaroundTime": 7
+        },
+        {
+          "name": "P3",
+          "waitingTime": 23,
+          "turnaroundTime": 31
+        },
+        {
+          "name": "P4",
+          "waitingTime": 24,
+          "turnaroundTime": 28
+        },
+        {
+          "name": "P5",
+          "waitingTime": 16,
+          "turnaroundTime": 18
+        }
+      ]
+    },
+    "expectedOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P3",
+        "P4",
+        "P5",
+        "P1",
+        "P3",
+        "P4",
+        "P3"
+      ],
+      "processResults": [
+        {
+          "name": "P1",
+          "waitingTime": 16.0,
+          "turnaroundTime": 22.0
+        },
+        {
+          "name": "P2",
+          "waitingTime": 4.0,
+          "turnaroundTime": 7.0
+        },
+        {
+          "name": "P3",
+          "waitingTime": 23.0,
+          "turnaroundTime": 31.0
+        },
+        {
+          "name": "P4",
+          "waitingTime": 24.0,
+          "turnaroundTime": 28.0
+        },
+        {
+          "name": "P5",
+          "waitingTime": 16.0,
+          "turnaroundTime": 18.0
+        }
+      ],
+      "averageWaitingTime": 16.6,
+      "averageTurnaroundTime": 21.2
+    }
+  },
+  {
+    "testFile": "test_2.json",
+    "scheduler": "Priority",
+    "actualOutput": {
+      "executionOrder": [
+        "P2",
+        "P3",
+        "P1",
+        "P3",
+        "P1",
+        "P3",
+        "P4",
+        "P5"
+      ],
+      "averageWaitingTime": 13.6,
+      "averageTurnaroundTime": 18.2,
+      "processes": [
+        {
+          "name": "P1",
+          "waitingTime": 12,
+          "turnaroundTime": 18
+        },
+        {
+          "name": "P2",
+          "waitingTime": 0,
+          "turnaroundTime": 3
+        },
+        {
+          "name": "P3",
+          "waitingTime": 12,
+          "turnaroundTime": 20
+        },
+        {
+          "name": "P4",
+          "waitingTime": 20,
+          "turnaroundTime": 24
+        },
+        {
+          "name": "P5",
+          "waitingTime": 24,
+          "turnaroundTime": 26
+        }
+      ]
+    },
+    "expectedOutput": {
+      "executionOrder": [
+        "P2",
+        "P3",
+        "P1",
+        "P3",
+        "P1",
+        "P3",
+        "P4",
+        "P5"
+      ],
+      "processResults": [
+        {
+          "name": "P1",
+          "waitingTime": 12.0,
+          "turnaroundTime": 18.0
+        },
+        {
+          "name": "P2",
+          "waitingTime": 0.0,
+          "turnaroundTime": 3.0
+        },
+        {
+          "name": "P3",
+          "waitingTime": 14.0,
+          "turnaroundTime": 22.0
+        },
+        {
+          "name": "P4",
+          "waitingTime": 23.0,
+          "turnaroundTime": 27.0
+        },
+        {
+          "name": "P5",
+          "waitingTime": 28.0,
+          "turnaroundTime": 30.0
+        }
+      ],
+      "averageWaitingTime": 15.4,
+      "averageTurnaroundTime": 20.0
+    }
+  },
+  {
+    "testFile": "test_3.json",
+    "scheduler": "SJF",
+    "actualOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P3",
+        "P5",
+        "P4",
+        "P1"
+      ],
+      "averageWaitingTime": 7.6,
+      "averageTurnaroundTime": 13.0,
+      "processes": [
+        {
+          "name": "P1",
+          "waitingTime": 22,
+          "turnaroundTime": 32
+        },
+        {
+          "name": "P2",
+          "waitingTime": 1,
+          "turnaroundTime": 6
+        },
+        {
+          "name": "P3",
+          "waitingTime": 4,
+          "turnaroundTime": 7
+        },
+        {
+          "name": "P4",
+          "waitingTime": 8,
+          "turnaroundTime": 15
+        },
+        {
+          "name": "P5",
+          "waitingTime": 3,
+          "turnaroundTime": 5
+        }
+      ]
+    },
+    "expectedOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P3",
+        "P5",
+        "P4",
+        "P1"
+      ],
+      "processResults": [
+        {
+          "name": "P1",
+          "waitingTime": 22.0,
+          "turnaroundTime": 32.0
+        },
+        {
+          "name": "P2",
+          "waitingTime": 1.0,
+          "turnaroundTime": 6.0
+        },
+        {
+          "name": "P3",
+          "waitingTime": 4.0,
+          "turnaroundTime": 7.0
+        },
+        {
+          "name": "P4",
+          "waitingTime": 8.0,
+          "turnaroundTime": 15.0
+        },
+        {
+          "name": "P5",
+          "waitingTime": 3.0,
+          "turnaroundTime": 5.0
+        }
+      ],
+      "averageWaitingTime": 7.6,
+      "averageTurnaroundTime": 13.0
+    }
+  },
+  {
+    "testFile": "test_3.json",
+    "scheduler": "Round Robin",
+    "actualOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P1",
+        "P3",
+        "P4",
+        "P2",
+        "P5",
+        "P1",
+        "P4"
+      ],
+      "averageWaitingTime": 17.0,
+      "averageTurnaroundTime": 22.4,
+      "processes": [
+        {
+          "name": "P1",
+          "waitingTime": 21,
+          "turnaroundTime": 31
+        },
+        {
+          "name": "P2",
+          "waitingTime": 18,
+          "turnaroundTime": 23
+        },
+        {
+          "name": "P3",
+          "waitingTime": 10,
+          "turnaroundTime": 13
+        },
+        {
+          "name": "P4",
+          "waitingTime": 20,
+          "turnaroundTime": 27
+        },
+        {
+          "name": "P5",
+          "waitingTime": 16,
+          "turnaroundTime": 18
+        }
+      ]
+    },
+    "expectedOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P1",
+        "P3",
+        "P4",
+        "P2",
+        "P5",
+        "P1",
+        "P4"
+      ],
+      "processResults": [
+        {
+          "name": "P1",
+          "waitingTime": 21.0,
+          "turnaroundTime": 31.0
+        },
+        {
+          "name": "P2",
+          "waitingTime": 18.0,
+          "turnaroundTime": 23.0
+        },
+        {
+          "name": "P3",
+          "waitingTime": 10.0,
+          "turnaroundTime": 13.0
+        },
+        {
+          "name": "P4",
+          "waitingTime": 20.0,
+          "turnaroundTime": 27.0
+        },
+        {
+          "name": "P5",
+          "waitingTime": 16.0,
+          "turnaroundTime": 18.0
+        }
+      ],
+      "averageWaitingTime": 17.0,
+      "averageTurnaroundTime": 22.4
+    }
+  },
+  {
+    "testFile": "test_3.json",
+    "scheduler": "Priority",
+    "actualOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P4",
+        "P3",
+        "P4",
+        "P1",
+        "P5",
+        "P1"
+      ],
+      "averageWaitingTime": 8.4,
+      "averageTurnaroundTime": 13.8,
+      "processes": [
+        {
+          "name": "P1",
+          "waitingTime": 20,
+          "turnaroundTime": 30
+        },
+        {
+          "name": "P2",
+          "waitingTime": 1,
+          "turnaroundTime": 6
+        },
+        {
+          "name": "P3",
+          "waitingTime": 6,
+          "turnaroundTime": 9
+        },
+        {
+          "name": "P4",
+          "waitingTime": 4,
+          "turnaroundTime": 11
+        },
+        {
+          "name": "P5",
+          "waitingTime": 11,
+          "turnaroundTime": 13
+        }
+      ]
+    },
+    "expectedOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P4",
+        "P3",
+        "P4",
+        "P1",
+        "P4",
+        "P5"
+      ],
+      "processResults": [
+        {
+          "name": "P1",
+          "waitingTime": 17.0,
+          "turnaroundTime": 27.0
+        },
+        {
+          "name": "P2",
+          "waitingTime": 1.0,
+          "turnaroundTime": 6.0
+        },
+        {
+          "name": "P3",
+          "waitingTime": 5.0,
+          "turnaroundTime": 8.0
+        },
+        {
+          "name": "P4",
+          "waitingTime": 16.0,
+          "turnaroundTime": 23.0
+        },
+        {
+          "name": "P5",
+          "waitingTime": 22.0,
+          "turnaroundTime": 24.0
+        }
+      ],
+      "averageWaitingTime": 12.2,
+      "averageTurnaroundTime": 17.6
+    }
+  },
+  {
+    "testFile": "test_4.json",
+    "scheduler": "SJF",
+    "actualOutput": {
+      "executionOrder": [
+        "P1",
+        "P4",
+        "P6",
+        "P2",
+        "P5",
+        "P3"
+      ],
+      "averageWaitingTime": 16.333333333333332,
+      "averageTurnaroundTime": 26.0,
+      "processes": [
+        {
+          "name": "P1",
+          "waitingTime": 0,
+          "turnaroundTime": 12
+        },
+        {
+          "name": "P2",
+          "waitingTime": 25,
+          "turnaroundTime": 34
+        },
+        {
+          "name": "P3",
+          "waitingTime": 45,
+          "turnaroundTime": 60
+        },
+        {
+          "name": "P4",
+          "waitingTime": 2,
+          "turnaroundTime": 8
+        },
+        {
+          "name": "P5",
+          "waitingTime": 24,
+          "turnaroundTime": 35
+        },
+        {
+          "name": "P6",
+          "waitingTime": 2,
+          "turnaroundTime": 7
+        }
+      ]
+    },
+    "expectedOutput": {
+      "executionOrder": [
+        "P1",
+        "P4",
+        "P6",
+        "P2",
+        "P5",
+        "P3"
+      ],
+      "processResults": [
+        {
+          "name": "P1",
+          "waitingTime": 0.0,
+          "turnaroundTime": 12.0
+        },
+        {
+          "name": "P2",
+          "waitingTime": 25.0,
+          "turnaroundTime": 34.0
+        },
+        {
+          "name": "P3",
+          "waitingTime": 45.0,
+          "turnaroundTime": 60.0
+        },
+        {
+          "name": "P4",
+          "waitingTime": 2.0,
+          "turnaroundTime": 8.0
+        },
+        {
+          "name": "P5",
+          "waitingTime": 24.0,
+          "turnaroundTime": 35.0
+        },
+        {
+          "name": "P6",
+          "waitingTime": 2.0,
+          "turnaroundTime": 7.0
+        }
+      ],
+      "averageWaitingTime": 16.33,
+      "averageTurnaroundTime": 26.0
+    }
+  },
+  {
+    "testFile": "test_4.json",
+    "scheduler": "Round Robin",
+    "actualOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P1",
+        "P3",
+        "P4",
+        "P2",
+        "P5",
+        "P1",
+        "P6",
+        "P3",
+        "P4",
+        "P5",
+        "P3",
+        "P5"
+      ],
+      "averageWaitingTime": 43.333333333333336,
+      "averageTurnaroundTime": 53.0,
+      "processes": [
+        {
+          "name": "P1",
+          "waitingTime": 38,
+          "turnaroundTime": 50
+        },
+        {
+          "name": "P2",
+          "waitingTime": 26,
+          "turnaroundTime": 35
+        },
+        {
+          "name": "P3",
+          "waitingTime": 58,
+          "turnaroundTime": 73
+        },
+        {
+          "name": "P4",
+          "waitingTime": 49,
+          "turnaroundTime": 55
+        },
+        {
+          "name": "P5",
+          "waitingTime": 57,
+          "turnaroundTime": 68
+        },
+        {
+          "name": "P6",
+          "waitingTime": 32,
+          "turnaroundTime": 37
+        }
+      ]
+    },
+    "expectedOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P1",
+        "P3",
+        "P4",
+        "P2",
+        "P5",
+        "P1",
+        "P6",
+        "P3",
+        "P4",
+        "P5",
+        "P3",
+        "P5"
+      ],
+      "processResults": [
+        {
+          "name": "P1",
+          "waitingTime": 38.0,
+          "turnaroundTime": 50.0
+        },
+        {
+          "name": "P2",
+          "waitingTime": 26.0,
+          "turnaroundTime": 35.0
+        },
+        {
+          "name": "P3",
+          "waitingTime": 58.0,
+          "turnaroundTime": 73.0
+        },
+        {
+          "name": "P4",
+          "waitingTime": 49.0,
+          "turnaroundTime": 55.0
+        },
+        {
+          "name": "P5",
+          "waitingTime": 57.0,
+          "turnaroundTime": 68.0
+        },
+        {
+          "name": "P6",
+          "waitingTime": 32.0,
+          "turnaroundTime": 37.0
+        }
+      ],
+      "averageWaitingTime": 43.33,
+      "averageTurnaroundTime": 53.0
+    }
+  },
+  {
+    "testFile": "test_4.json",
+    "scheduler": "Priority",
+    "actualOutput": {
+      "executionOrder": [
+        "P1",
+        "P3",
+        "P1",
+        "P3",
+        "P2",
+        "P3",
+        "P4",
+        "P5",
+        "P6"
+      ],
+      "averageWaitingTime": 24.833333333333332,
+      "averageTurnaroundTime": 34.5,
+      "processes": [
+        {
+          "name": "P1",
+          "waitingTime": 7,
+          "turnaroundTime": 19
+        },
+        {
+          "name": "P2",
+          "waitingTime": 22,
+          "turnaroundTime": 31
+        },
+        {
+          "name": "P3",
+          "waitingTime": 19,
+          "turnaroundTime": 34
+        },
+        {
+          "name": "P4",
+          "waitingTime": 30,
+          "turnaroundTime": 36
+        },
+        {
+          "name": "P5",
+          "waitingTime": 32,
+          "turnaroundTime": 43
+        },
+        {
+          "name": "P6",
+          "waitingTime": 39,
+          "turnaroundTime": 44
+        }
+      ]
+    },
+    "expectedOutput": {
+      "executionOrder": [
+        "P1",
+        "P3",
+        "P1",
+        "P2",
+        "P3",
+        "P4",
+        "P5",
+        "P6"
+      ],
+      "processResults": [
+        {
+          "name": "P1",
+          "waitingTime": 8.0,
+          "turnaroundTime": 20.0
+        },
+        {
+          "name": "P2",
+          "waitingTime": 18.0,
+          "turnaroundTime": 27.0
+        },
+        {
+          "name": "P3",
+          "waitingTime": 21.0,
+          "turnaroundTime": 36.0
+        },
+        {
+          "name": "P4",
+          "waitingTime": 34.0,
+          "turnaroundTime": 40.0
+        },
+        {
+          "name": "P5",
+          "waitingTime": 38.0,
+          "turnaroundTime": 49.0
+        },
+        {
+          "name": "P6",
+          "waitingTime": 47.0,
+          "turnaroundTime": 52.0
+        }
+      ],
+      "averageWaitingTime": 27.67,
+      "averageTurnaroundTime": 37.33
+    }
+  },
+  {
+    "testFile": "test_5.json",
+    "scheduler": "SJF",
+    "actualOutput": {
+      "executionOrder": [
+        "P1",
+        "P4",
+        "P2",
+        "P5",
+        "P3"
+      ],
+      "averageWaitingTime": 4.4,
+      "averageTurnaroundTime": 7.0,
+      "processes": [
+        {
+          "name": "P1",
+          "waitingTime": 0,
+          "turnaroundTime": 3
+        },
+        {
+          "name": "P2",
+          "waitingTime": 5,
+          "turnaroundTime": 7
+        },
+        {
+          "name": "P3",
+          "waitingTime": 11,
+          "turnaroundTime": 15
+        },
+        {
+          "name": "P4",
+          "waitingTime": 1,
+          "turnaroundTime": 2
+        },
+        {
+          "name": "P5",
+          "waitingTime": 5,
+          "turnaroundTime": 8
+        }
+      ]
+    },
+    "expectedOutput": {
+      "executionOrder": [
+        "P1",
+        "P4",
+        "P2",
+        "P5",
+        "P3"
+      ],
+      "processResults": [
+        {
+          "name": "P1",
+          "waitingTime": 0.0,
+          "turnaroundTime": 3.0
+        },
+        {
+          "name": "P2",
+          "waitingTime": 5.0,
+          "turnaroundTime": 7.0
+        },
+        {
+          "name": "P3",
+          "waitingTime": 11.0,
+          "turnaroundTime": 15.0
+        },
+        {
+          "name": "P4",
+          "waitingTime": 1.0,
+          "turnaroundTime": 2.0
+        },
+        {
+          "name": "P5",
+          "waitingTime": 5.0,
+          "turnaroundTime": 8.0
+        }
+      ],
+      "averageWaitingTime": 4.4,
+      "averageTurnaroundTime": 7.0
+    }
+  },
+  {
+    "testFile": "test_5.json",
+    "scheduler": "Round Robin",
+    "actualOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P3",
+        "P1",
+        "P4",
+        "P5",
+        "P3",
+        "P5"
+      ],
+      "averageWaitingTime": 8.4,
+      "averageTurnaroundTime": 11.0,
+      "processes": [
+        {
+          "name": "P1",
+          "waitingTime": 7,
+          "turnaroundTime": 10
+        },
+        {
+          "name": "P2",
+          "waitingTime": 2,
+          "turnaroundTime": 4
+        },
+        {
+          "name": "P3",
+          "waitingTime": 12,
+          "turnaroundTime": 16
+        },
+        {
+          "name": "P4",
+          "waitingTime": 8,
+          "turnaroundTime": 9
+        },
+        {
+          "name": "P5",
+          "waitingTime": 13,
+          "turnaroundTime": 16
+        }
+      ]
+    },
+    "expectedOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P3",
+        "P1",
+        "P4",
+        "P5",
+        "P3",
+        "P5"
+      ],
+      "processResults": [
+        {
+          "name": "P1",
+          "waitingTime": 7.0,
+          "turnaroundTime": 10.0
+        },
+        {
+          "name": "P2",
+          "waitingTime": 2.0,
+          "turnaroundTime": 4.0
+        },
+        {
+          "name": "P3",
+          "waitingTime": 12.0,
+          "turnaroundTime": 16.0
+        },
+        {
+          "name": "P4",
+          "waitingTime": 8.0,
+          "turnaroundTime": 9.0
+        },
+        {
+          "name": "P5",
+          "waitingTime": 13.0,
+          "turnaroundTime": 16.0
+        }
+      ],
+      "averageWaitingTime": 8.4,
+      "averageTurnaroundTime": 11.0
+    }
+  },
+  {
+    "testFile": "test_5.json",
+    "scheduler": "Priority",
+    "actualOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P3",
+        "P1",
+        "P3",
+        "P4",
+        "P5"
+      ],
+      "averageWaitingTime": 5.6,
+      "averageTurnaroundTime": 8.2,
+      "processes": [
+        {
+          "name": "P1",
+          "waitingTime": 6,
+          "turnaroundTime": 9
+        },
+        {
+          "name": "P2",
+          "waitingTime": 1,
+          "turnaroundTime": 3
+        },
+        {
+          "name": "P3",
+          "waitingTime": 5,
+          "turnaroundTime": 9
+        },
+        {
+          "name": "P4",
+          "waitingTime": 8,
+          "turnaroundTime": 9
+        },
+        {
+          "name": "P5",
+          "waitingTime": 8,
+          "turnaroundTime": 11
+        }
+      ]
+    },
+    "expectedOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P1",
+        "P3",
+        "P1",
+        "P3",
+        "P4",
+        "P5"
+      ],
+      "processResults": [
+        {
+          "name": "P1",
+          "waitingTime": 7.0,
+          "turnaroundTime": 10.0
+        },
+        {
+          "name": "P2",
+          "waitingTime": 1.0,
+          "turnaroundTime": 3.0
+        },
+        {
+          "name": "P3",
+          "waitingTime": 8.0,
+          "turnaroundTime": 12.0
+        },
+        {
+          "name": "P4",
+          "waitingTime": 12.0,
+          "turnaroundTime": 13.0
+        },
+        {
+          "name": "P5",
+          "waitingTime": 13.0,
+          "turnaroundTime": 16.0
+        }
+      ],
+      "averageWaitingTime": 8.2,
+      "averageTurnaroundTime": 10.8
+    }
+  },
+  {
+    "testFile": "test_6.json",
+    "scheduler": "SJF",
+    "actualOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P4",
+        "P6",
+        "P5",
+        "P3",
+        "P1"
+      ],
+      "averageWaitingTime": 14.0,
+      "averageTurnaroundTime": 22.0,
+      "processes": [
+        {
+          "name": "P1",
+          "waitingTime": 40,
+          "turnaroundTime": 54
+        },
+        {
+          "name": "P2",
+          "waitingTime": 1,
+          "turnaroundTime": 8
+        },
+        {
+          "name": "P3",
+          "waitingTime": 26,
+          "turnaroundTime": 36
+        },
+        {
+          "name": "P4",
+          "waitingTime": 3,
+          "turnaroundTime": 8
+        },
+        {
+          "name": "P5",
+          "waitingTime": 11,
+          "turnaroundTime": 19
+        },
+        {
+          "name": "P6",
+          "waitingTime": 3,
+          "turnaroundTime": 7
+        }
+      ]
+    },
+    "expectedOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P4",
+        "P6",
+        "P5",
+        "P3",
+        "P1"
+      ],
+      "processResults": [
+        {
+          "name": "P1",
+          "waitingTime": 40.0,
+          "turnaroundTime": 54.0
+        },
+        {
+          "name": "P2",
+          "waitingTime": 1.0,
+          "turnaroundTime": 8.0
+        },
+        {
+          "name": "P3",
+          "waitingTime": 26.0,
+          "turnaroundTime": 36.0
+        },
+        {
+          "name": "P4",
+          "waitingTime": 3.0,
+          "turnaroundTime": 8.0
+        },
+        {
+          "name": "P5",
+          "waitingTime": 11.0,
+          "turnaroundTime": 19.0
+        },
+        {
+          "name": "P6",
+          "waitingTime": 3.0,
+          "turnaroundTime": 7.0
+        }
+      ],
+      "averageWaitingTime": 14.0,
+      "averageTurnaroundTime": 22.0
+    }
+  },
+  {
+    "testFile": "test_6.json",
+    "scheduler": "Round Robin",
+    "actualOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P1",
+        "P3",
+        "P4",
+        "P2",
+        "P5",
+        "P1",
+        "P6",
+        "P3",
+        "P4",
+        "P5",
+        "P1",
+        "P3"
+      ],
+      "averageWaitingTime": 33.666666666666664,
+      "averageTurnaroundTime": 41.666666666666664,
+      "processes": [
+        {
+          "name": "P1",
+          "waitingTime": 44,
+          "turnaroundTime": 58
+        },
+        {
+          "name": "P2",
+          "waitingTime": 18,
+          "turnaroundTime": 25
+        },
+        {
+          "name": "P3",
+          "waitingTime": 45,
+          "turnaroundTime": 55
+        },
+        {
+          "name": "P4",
+          "waitingTime": 36,
+          "turnaroundTime": 41
+        },
+        {
+          "name": "P5",
+          "waitingTime": 35,
+          "turnaroundTime": 43
+        },
+        {
+          "name": "P6",
+          "waitingTime": 24,
+          "turnaroundTime": 28
+        }
+      ]
+    },
+    "expectedOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P1",
+        "P3",
+        "P4",
+        "P2",
+        "P5",
+        "P1",
+        "P6",
+        "P3",
+        "P4",
+        "P5",
+        "P1",
+        "P3"
+      ],
+      "processResults": [
+        {
+          "name": "P1",
+          "waitingTime": 44.0,
+          "turnaroundTime": 58.0
+        },
+        {
+          "name": "P2",
+          "waitingTime": 18.0,
+          "turnaroundTime": 25.0
+        },
+        {
+          "name": "P3",
+          "waitingTime": 45.0,
+          "turnaroundTime": 55.0
+        },
+        {
+          "name": "P4",
+          "waitingTime": 36.0,
+          "turnaroundTime": 41.0
+        },
+        {
+          "name": "P5",
+          "waitingTime": 35.0,
+          "turnaroundTime": 43.0
+        },
+        {
+          "name": "P6",
+          "waitingTime": 24.0,
+          "turnaroundTime": 28.0
+        }
+      ],
+      "averageWaitingTime": 33.67,
+      "averageTurnaroundTime": 41.67
+    }
+  },
+  {
+    "testFile": "test_6.json",
+    "scheduler": "Priority",
+    "actualOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P4",
+        "P2",
+        "P4",
+        "P1",
+        "P3",
+        "P5",
+        "P6"
+      ],
+      "averageWaitingTime": 18.0,
+      "averageTurnaroundTime": 26.0,
+      "processes": [
+        {
+          "name": "P1",
+          "waitingTime": 15,
+          "turnaroundTime": 29
+        },
+        {
+          "name": "P2",
+          "waitingTime": 7,
+          "turnaroundTime": 14
+        },
+        {
+          "name": "P3",
+          "waitingTime": 23,
+          "turnaroundTime": 33
+        },
+        {
+          "name": "P4",
+          "waitingTime": 4,
+          "turnaroundTime": 9
+        },
+        {
+          "name": "P5",
+          "waitingTime": 27,
+          "turnaroundTime": 35
+        },
+        {
+          "name": "P6",
+          "waitingTime": 32,
+          "turnaroundTime": 36
+        }
+      ]
+    },
+    "expectedOutput": {
+      "executionOrder": [
+        "P1",
+        "P2",
+        "P4",
+        "P2",
+        "P4",
+        "P1",
+        "P3",
+        "P4",
+        "P5",
+        "P6"
+      ],
+      "processResults": [
+        {
+          "name": "P1",
+          "waitingTime": 16.0,
+          "turnaroundTime": 30.0
+        },
+        {
+          "name": "P2",
+          "waitingTime": 7.0,
+          "turnaroundTime": 14.0
+        },
+        {
+          "name": "P3",
+          "waitingTime": 25.0,
+          "turnaroundTime": 35.0
+        },
+        {
+          "name": "P4",
+          "waitingTime": 29.0,
+          "turnaroundTime": 34.0
+        },
+        {
+          "name": "P5",
+          "waitingTime": 32.0,
+          "turnaroundTime": 40.0
+        },
+        {
+          "name": "P6",
+          "waitingTime": 38.0,
+          "turnaroundTime": 42.0
+        }
+      ],
+      "averageWaitingTime": 24.6,
+      "averageTurnaroundTime": 32.6
+    }
+  }
+]
