@@ -25,7 +25,7 @@ public class SJFScheduler implements Scheduler {
         Process lastRanProcess = null;
 
         while (completed < n) {
-            Process current = pickShortestRemaining(processes, currentTime);
+            Process current = pickShortestRemaining(processes, currentTime, lastRanProcess);
 
             if (current == null) {
                 currentTime++;
@@ -36,7 +36,7 @@ public class SJFScheduler implements Scheduler {
                 for (int i = 0; i < contextSwitchTime; i++) {
                     currentTime++;
                 }
-                current = pickShortestRemaining(processes, currentTime);
+                current = pickShortestRemaining(processes, currentTime, lastRanProcess);
                 if (current == null) continue;
             }
 
@@ -44,14 +44,16 @@ public class SJFScheduler implements Scheduler {
                 current.setStartTime(currentTime);
             }
 
-            result.executionOrder.add(current.getName());
+            if (result.executionOrder.isEmpty() ||
+                !result.executionOrder.get(result.executionOrder.size() - 1).equals(current.getName())) {
+                result.executionOrder.add(current.getName());
+            }            
             current.execute(1);
             currentTime++;
 
             if (current.isCompleted()) {
                 completed++;
                 current.setCompletionTime(currentTime);
-                current = null;
             }
 
             lastRanProcess = current;
@@ -61,27 +63,43 @@ public class SJFScheduler implements Scheduler {
         return result;
     }
 
-    private Process pickShortestRemaining(List<Process> processes, int time) {
+    private Process pickShortestRemaining(List<Process> processes, int time, Process lastRanProcess) {
         Process shortest = null;
 
         for (Process p : processes) {
-            if (p.getArrivalTime() <= time && p.getRemainingBurstTime() > 0) {
-                if (shortest == null) {
-                    shortest = p;
-                } else if (p.getRemainingBurstTime() < shortest.getRemainingBurstTime()) {
-                    shortest = p;
-                } else if (p.getRemainingBurstTime() == shortest.getRemainingBurstTime()) {
-                    if (p.getArrivalTime() < shortest.getArrivalTime()) {
+            if (p.getArrivalTime() > time || p.getRemainingBurstTime() <= 0) continue;
+
+            if (shortest == null) {
+                shortest = p;
+                continue;
+            }
+
+            if (p.getRemainingBurstTime() < shortest.getRemainingBurstTime()) {
+                shortest = p;
+            } else if (p.getRemainingBurstTime() == shortest.getRemainingBurstTime()) {
+                // Prefer continuing the current running process 
+                if (lastRanProcess != null) {
+                    if (p == lastRanProcess && shortest != lastRanProcess) {
                         shortest = p;
-                    } else if (p.getArrivalTime() == shortest.getArrivalTime()) {
-                        if (p.getName().compareTo(shortest.getName()) < 0)
-                            shortest = p;
+                        continue;
+                    }
+                    if (shortest == lastRanProcess && p != lastRanProcess) {
+                        continue;
+                    }
+                }
+
+                if (p.getArrivalTime() < shortest.getArrivalTime()) {
+                    shortest = p;
+                } else if (p.getArrivalTime() == shortest.getArrivalTime()) {
+                    if (p.getName().compareTo(shortest.getName()) < 0) {
+                        shortest = p;
                     }
                 }
             }
         }
         return shortest;
     }
+
 
     private void calculateMetrics(ScheduleResult result) {
         double sumwaiting = 0;
