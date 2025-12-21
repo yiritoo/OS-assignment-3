@@ -9,6 +9,9 @@ public class Process {
     private int totalBurstTime;
     private int initialPriority;
     private int initialQuantum;
+    private int lastUpdate;  // آخر مرة تم تحديث الأولوية أو تم تنفيذ العملية
+    private int pid;         // معرف العملية (لو مش موجود)
+
 
     // Dynamic Scheduling Parameters
     private int remainingBurstTime;
@@ -114,6 +117,21 @@ public class Process {
             copy.add(newP);
         }
         return copy;
+    }
+    public int getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(int time) {
+        this.lastUpdate = time;
+    }
+
+    public int getPid() {
+        return pid;
+    }
+
+    public void setPid(int pid) {
+        this.pid = pid;
     }
 }
 

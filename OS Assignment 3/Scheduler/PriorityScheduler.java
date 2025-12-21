@@ -4,105 +4,158 @@ import model.Process;
 import java.util.*;
 
 public class PriorityScheduler implements Scheduler {
+
+    private int agingInterval = 5;
+
     @Override
     public ScheduleResult schedule(List<Process> input, int contextSwitchTime) {
-        ScheduleResult report = new ScheduleResult();
-        List<Process> processes = Process.copyList(input);
-        report.processes = processes;
+        return schedule(input, contextSwitchTime, 5);
+    }
 
-        for (Process p : processes) {
+    public ScheduleResult schedule(List<Process> input, int contextSwitchTime, int agingInterval) {
+        this.agingInterval = agingInterval;
+
+        ScheduleResult result = new ScheduleResult();
+        List<Process> processes = Process.copyList(input);
+        result.processes = processes;
+
+        // Initialize
+        for (int i = 0; i < processes.size(); i++) {
+            Process p = processes.get(i);
             p.setRemainingBurstTime(p.getTotalBurstTime());
             p.setDynamicPriority(p.getInitialPriority());
             p.setStartTime(-1);
+            p.setLastUpdate(p.getArrivalTime());
+            p.setPid(i);
         }
 
-        int currentTime = 0;
+        int time = 0;
         int completed = 0;
-        Process lastProcess = null;
+        Process running = null;
 
         while (completed < processes.size()) {
 
-            applyAging(processes, currentTime);
+            // Apply aging to waiting processes
+            for (Process p : processes) {
+                if (p.getRemainingBurstTime() > 0 &&
+                        p.getArrivalTime() <= time &&
+                        p != running) {
 
-            Process current = pickHighestPriority(processes, currentTime);
+                    int waitTime = time - p.getLastUpdate();
+                    if (waitTime > 0 && waitTime % agingInterval == 0) {
+                        p.setDynamicPriority(Math.max(1, p.getDynamicPriority() - 1));
+                        p.setLastUpdate(time);
+                    }
+                }
+            }
 
-            if (current == null) {
-                currentTime++;
+            // Pick highest priority
+            Process next = pickHighestPriority(processes, time);
+
+            // CPU Idle
+            if (next == null) {
+                time++;
+                running = null;
                 continue;
             }
 
-            if (lastProcess != null && lastProcess != current && lastProcess.getRemainingBurstTime() > 0) {
-                for (int i = 0; i < contextSwitchTime; i++) {
-                    currentTime++;
-                    applyAging(processes, currentTime);
+            // Determine if context switch is needed
+            boolean needsContextSwitch = false;
+
+            if (running == null) {
+                // No process was running (idle or first process or after completion)
+                result.executionOrder.add(next.getName());
+                running = next;
+            } else if (running != next) {
+                // Different process selected - need context switch
+                needsContextSwitch = true;
+                result.executionOrder.add(next.getName());
+
+                // Update lastUpdate for the process being preempted
+                running.setLastUpdate(time);
+
+                // Perform context switch
+                time += contextSwitchTime;
+
+                // Apply aging after context switch
+                for (Process p : processes) {
+                    if (p.getRemainingBurstTime() > 0 &&
+                            p.getArrivalTime() <= time &&
+                            p != next) {
+
+                        int waitTime = time - p.getLastUpdate();
+                        if (waitTime > 0 && waitTime % agingInterval == 0) {
+                            p.setDynamicPriority(Math.max(1, p.getDynamicPriority() - 1));
+                            p.setLastUpdate(time);
+                        }
+                    }
                 }
-                current = pickHighestPriority(processes, currentTime);
-                if (current == null) continue;
+
+                running = next;
+            }
+            // else: same process continues, no action needed
+
+            // Set start time on first execution
+            if (running.getStartTime() == -1) {
+                running.setStartTime(time);
             }
 
-            if (!current.hasStarted()) {
-                current.setStartTime(currentTime);
-            }
+            // Execute one time unit
+            running.execute(1);
+            time++;
 
-            report.executionOrder.add(current.getName());
-            current.execute(1);
-            currentTime++;
+            // Update lastUpdate after execution
+            running.setLastUpdate(time);
 
-            if (current.isCompleted()) {
+            // Check for completion
+            if (running.isCompleted()) {
+                running.setCompletionTime(time);
                 completed++;
-                current.setCompletionTime(currentTime);
-            }
-            lastProcess = current;
-        }
-        calculateMetrics(report);
-        return report;
-    }
-
-    private void applyAging(List<Process> processes, int currentTime) {
-
-        if (currentTime > 0 && currentTime % 5 == 0) {
-            for (Process p : processes) {
-                if (p.getArrivalTime() <= currentTime && p.getRemainingBurstTime() > 0) {
-                    p.setDynamicPriority(Math.max(1, p.getDynamicPriority() - 1));
-                }
+                running = null; // Clear running so next process starts without CS
             }
         }
-    }
 
-    private Process pickHighestPriority(List<Process> processes, int currentTime) {
-        Process best = null;
+        // Calculate metrics
         for (Process p : processes) {
-            if (p.getArrivalTime() <= currentTime && p.getRemainingBurstTime() > 0) {
+            p.setTurnaroundTime(p.getCompletionTime() - p.getArrivalTime());
+            p.setWaitingTime(p.getTurnaroundTime() - p.getTotalBurstTime());
+        }
+
+        double totalWT = 0, totalTAT = 0;
+        for (Process p : processes) {
+            totalWT += p.getWaitingTime();
+            totalTAT += p.getTurnaroundTime();
+        }
+
+        result.avgWaitingTime = totalWT / processes.size();
+        result.avgTurnaroundTime = totalTAT / processes.size();
+
+        return result;
+    }
+
+    private Process pickHighestPriority(List<Process> processes, int time) {
+        Process best = null;
+
+        for (Process p : processes) {
+            if (p.getArrivalTime() <= time && p.getRemainingBurstTime() > 0) {
                 if (best == null) {
                     best = p;
-                } else if (p.getDynamicPriority() < best.getDynamicPriority()) {
-                    best = p;
-                } else if (p.getDynamicPriority() == best.getDynamicPriority()) {
-                    // Tie-breaker: Arrival Time (FCFS)
-                    if (p.getArrivalTime() < best.getArrivalTime()) {
+                } else {
+                    if (p.getDynamicPriority() < best.getDynamicPriority()) {
                         best = p;
+                    } else if (p.getDynamicPriority() == best.getDynamicPriority()) {
+                        if (p.getArrivalTime() < best.getArrivalTime()) {
+                            best = p;
+                        } else if (p.getArrivalTime() == best.getArrivalTime()) {
+                            if (p.getPid() < best.getPid()) {
+                                best = p;
+                            }
+                        }
                     }
                 }
             }
         }
+
         return best;
-    }
-
-    private void calculateMetrics(ScheduleResult result) {
-        double totalWT = 0, totalTAT = 0;
-        for (Process p : result.processes) {
-            int tat = p.getCompletionTime() - p.getArrivalTime();
-            int wt = tat - p.getTotalBurstTime();
-            if (wt < 0) wt = 0;
-
-            p.setTurnaroundTime(tat);
-            p.setWaitingTime(wt);
-            totalTAT += tat;
-            totalWT += wt;
-        }
-        if (!result.processes.isEmpty()) {
-            result.avgTurnaroundTime = totalTAT / result.processes.size();
-            result.avgWaitingTime = totalWT / result.processes.size();
-        }
     }
 }

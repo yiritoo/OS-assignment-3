@@ -42,6 +42,7 @@ public class test {
 
                 int cs = input.containsKey("contextSwitch") ? ((Double) input.get("contextSwitch")).intValue() : 0;
                 int rrQ = input.containsKey("rrQuantum") ? ((Double) input.get("rrQuantum")).intValue() : 0;
+                int agingInterval = input.containsKey("agingInterval") ? ((Double) input.get("agingInterval")).intValue() : 5;
 
                 System.out.println("\nTest File: " + file.getName());
 
@@ -50,7 +51,7 @@ public class test {
                     printCompare("AG", ag.schedule(processes, cs), expected);
                 } else {
                     // Standard Schedulers Comparison
-                    runStandardCompare(processes, cs, rrQ, expected);
+                    runStandardCompare(processes, cs, rrQ, agingInterval, expected);
                 }
             } catch (Exception e) {
                 System.err.println("Error processing " + file.getName() + ": " + e.getMessage());
@@ -58,14 +59,18 @@ public class test {
         }
     }
 
-    private static void runStandardCompare(List<Process> data, int cs, int rrQ, Map<String, Object> expectedRoot) {
-        if (expectedRoot.containsKey("SJF")) runAndCompare("SJF", new SJFScheduler(), data, cs, (Map<String, Object>) expectedRoot.get("SJF"));
-        if (expectedRoot.containsKey("RR")) runAndCompare("Round Robin", new RoundRobinScheduler(rrQ), data, cs, (Map<String, Object>) expectedRoot.get("RR"));
-        if (expectedRoot.containsKey("Priority")) runAndCompare("Priority", new PriorityScheduler(), data, cs, (Map<String, Object>) expectedRoot.get("Priority"));
+    private static void runStandardCompare(List<Process> data, int cs, int rrQ, int agingInterval, Map<String, Object> expectedRoot) {
+        if (expectedRoot.containsKey("SJF")) runAndCompare("SJF", new SJFScheduler(), data, cs, agingInterval, (Map<String, Object>) expectedRoot.get("SJF"));
+        if (expectedRoot.containsKey("RR")) runAndCompare("Round Robin", new RoundRobinScheduler(rrQ), data, cs, agingInterval, (Map<String, Object>) expectedRoot.get("RR"));
+        if (expectedRoot.containsKey("Priority")) runAndComparePriority("Priority", new PriorityScheduler(), data, cs, agingInterval, (Map<String, Object>) expectedRoot.get("Priority"));
     }
 
-    private static void runAndCompare(String name, Scheduler s, List<Process> data, int cs, Map<String, Object> expected) {
+    private static void runAndCompare(String name, Scheduler s, List<Process> data, int cs, int agingInterval, Map<String, Object> expected) {
         printCompare(name, s.schedule(Process.copyList(data), cs), expected);
+    }
+
+    private static void runAndComparePriority(String name, PriorityScheduler s, List<Process> data, int cs, int agingInterval, Map<String, Object> expected) {
+        printCompare(name, s.schedule(Process.copyList(data), cs, agingInterval), expected);
     }
 
     private static void printCompare(String name, ScheduleResult actual, Map<String, Object> expected) {
