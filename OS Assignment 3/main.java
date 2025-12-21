@@ -52,7 +52,7 @@ public class main {
         System.out.println("========================================");
 
         // Use copy to preserve original process data
-        AG_Scheduler ag = new AG_Scheduler(Process.copyList(processes));
+        AG_Scheduler ag = new AG_Scheduler();
         ScheduleResult agReport = ag.schedule(processes, contextSwitchTime);
 
         // Task: Print Execution Order

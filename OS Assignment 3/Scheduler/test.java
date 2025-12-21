@@ -1,5 +1,4 @@
 package Scheduler;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import model.Process;
@@ -15,7 +14,7 @@ public class test {
     // true  = Write results to 'output.json'
     // false = Print results to Terminal
     // ==========================================
-    private static final boolean OUTPUT_TO_JSON = true;
+    private static final boolean OUTPUT_TO_JSON = false;
 
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final List<Map<String, Object>> allResults = new ArrayList<>();
@@ -76,7 +75,7 @@ public class test {
                 }
 
                 if (type.equals("AG")) {
-                    AG_Scheduler ag = new AG_Scheduler(new ArrayList<>(processes));
+                    AG_Scheduler ag = new AG_Scheduler();
                     handleResult(file.getName(), "AG", ag.schedule(processes, cs), expected);
                 } else {
                     runStandardCompare(file.getName(), processes, cs, rrQ, agingInterval, expected);

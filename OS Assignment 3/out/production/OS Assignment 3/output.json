@@ -5,41 +5,44 @@
     "actualOutput": {
       "executionOrder": [
         "P1",
+        "P2",
         "P3",
+        "P2",
         "P3",
+        "P2",
         "P3",
-        "P3",
-        "P3",
+        "P2",
         "P1",
-        "P1",
-        "P1",
-        "P1",
+        "P3",
+        "P4",
         "P1",
         "P4",
-        "P2"
+        "P1",
+        "P4",
+        "P1"
       ],
-      "averageWaitingTime": 14.0,
-      "averageTurnaroundTime": 23.5,
+      "averageWaitingTime": 11.25,
+      "averageTurnaroundTime": 20.75,
       "processes": [
         {
           "name": "P1",
-          "waitingTime": 11,
-          "turnaroundTime": 28
+          "waitingTime": 21,
+          "turnaroundTime": 38
         },
         {
           "name": "P2",
-          "waitingTime": 30,
-          "turnaroundTime": 36
-        },
-        {
-          "name": "P3",
-          "waitingTime": 2,
+          "waitingTime": 7,
           "turnaroundTime": 13
         },
         {
+          "name": "P3",
+          "waitingTime": 5,
+          "turnaroundTime": 16
+        },
+        {
           "name": "P4",
-          "waitingTime": 13,
-          "turnaroundTime": 17
+          "waitingTime": 12,
+          "turnaroundTime": 16
         }
       ]
     },
@@ -109,47 +112,47 @@
     "scheduler": "AG",
     "actualOutput": {
       "executionOrder": [
+        "P1",
         "P2",
+        "P3",
         "P2",
-        "P2",
-        "P3",
-        "P3",
-        "P3",
-        "P3",
-        "P1",
-        "P1",
-        "P1",
-        "P1",
         "P4",
+        "P2",
+        "P5",
+        "P3",
         "P4",
+        "P1",
+        "P3",
         "P4",
         "P5",
+        "P3",
+        "P1",
         "P5",
-        "P5",
+        "P1",
         "P5"
       ],
-      "averageWaitingTime": 18.8,
-      "averageTurnaroundTime": 27.8,
+      "averageWaitingTime": 20.6,
+      "averageTurnaroundTime": 29.6,
       "processes": [
         {
           "name": "P1",
-          "waitingTime": 20,
-          "turnaroundTime": 30
+          "waitingTime": 28,
+          "turnaroundTime": 38
         },
         {
           "name": "P2",
-          "waitingTime": 0,
-          "turnaroundTime": 8
+          "waitingTime": 4,
+          "turnaroundTime": 12
         },
         {
           "name": "P3",
-          "waitingTime": 8,
-          "turnaroundTime": 20
+          "waitingTime": 18,
+          "turnaroundTime": 30
         },
         {
           "name": "P4",
-          "waitingTime": 30,
-          "turnaroundTime": 36
+          "waitingTime": 17,
+          "turnaroundTime": 23
         },
         {
           "name": "P5",
@@ -244,51 +247,54 @@
       "executionOrder": [
         "P1",
         "P2",
-        "P4",
+        "P1",
         "P3",
         "P1",
+        "P4",
+        "P1",
+        "P5",
+        "P6",
+        "P5",
+        "P6",
+        "P5",
+        "P6",
+        "P5",
         "P1",
         "P6",
-        "P6",
-        "P6",
-        "P1",
-        "P1",
-        "P1",
-        "P1",
-        "P5"
+        "P1"
       ],
-      "averageWaitingTime": 8.5,
-      "averageTurnaroundTime": 15.166666666666666,
+      "averageWaitingTime": 6.0,
+      "averageTurnaroundTime": 12.666666666666666,
       "processes": [
         {
           "name": "P1",
-          "waitingTime": 15,
-          "turnaroundTime": 35
+          "waitingTime": 20,
+          "turnaroundTime": 40
         },
         {
           "name": "P2",
-          "waitingTime": 5,
-          "turnaroundTime": 9
-        },
-        {
-          "name": "P3",
-          "waitingTime": 8,
-          "turnaroundTime": 11
-        },
-        {
-          "name": "P4",
-          "waitingTime": 2,
+          "waitingTime": 0,
           "turnaroundTime": 4
         },
         {
+          "name": "P3",
+          "waitingTime": 1,
+          "turnaroundTime": 4
+        },
+        {
+          "name": "P4",
+          "waitingTime": 1,
+          "turnaroundTime": 3
+        },
+        {
           "name": "P5",
-          "waitingTime": 20,
-          "turnaroundTime": 25
+          "waitingTime": 9,
+          "turnaroundTime": 14
         },
         {
           "name": "P6",
-          "waitingTime": 1,
-          "turnaroundTime": 7
+          "waitingTime": 5,
+          "turnaroundTime": 11
         }
       ]
     },
@@ -379,11 +385,12 @@
         "P1",
         "P2",
         "P3",
+        "P2",
         "P4",
         "P5"
       ],
-      "averageWaitingTime": 1.2,
-      "averageTurnaroundTime": 4.6,
+      "averageWaitingTime": 1.4,
+      "averageTurnaroundTime": 4.8,
       "processes": [
         {
           "name": "P1",
@@ -392,13 +399,13 @@
         },
         {
           "name": "P2",
-          "waitingTime": 1,
-          "turnaroundTime": 5
+          "waitingTime": 3,
+          "turnaroundTime": 7
         },
         {
           "name": "P3",
-          "waitingTime": 2,
-          "turnaroundTime": 4
+          "waitingTime": 1,
+          "turnaroundTime": 3
         },
         {
           "name": "P4",
@@ -479,86 +486,77 @@
     "actualOutput": {
       "executionOrder": [
         "P1",
+        "P2",
+        "P1",
         "P4",
-        "P4",
-        "P4",
-        "P4",
-        "P4",
-        "P4",
+        "P3",
         "P4",
         "P2",
-        "P2",
-        "P2",
-        "P2",
-        "P2",
-        "P2",
-        "P2",
-        "P2",
+        "P4",
         "P1",
-        "P1",
-        "P1",
-        "P1",
-        "P1",
-        "P1",
-        "P1",
-        "P1",
-        "P1",
-        "P1",
-        "P3",
-        "P3",
-        "P3",
-        "P3",
-        "P3",
-        "P3",
-        "P3",
-        "P3",
-        "P3",
+        "P4",
         "P5",
-        "P5",
-        "P5",
-        "P5",
-        "P5",
-        "P5",
-        "P5",
-        "P5",
+        "P4",
+        "P3",
+        "P4",
         "P6",
+        "P4",
+        "P2",
         "P6",
+        "P2",
         "P6",
+        "P2",
+        "P1",
         "P6",
-        "P6"
+        "P1",
+        "P6",
+        "P1",
+        "P6",
+        "P1",
+        "P5",
+        "P3",
+        "P6",
+        "P3",
+        "P6",
+        "P3",
+        "P6",
+        "P5",
+        "P3",
+        "P5",
+        "P5"
       ],
-      "averageWaitingTime": 44.5,
-      "averageTurnaroundTime": 63.166666666666664,
+      "averageWaitingTime": 48.333333333333336,
+      "averageTurnaroundTime": 67.0,
       "processes": [
         {
           "name": "P1",
-          "waitingTime": 33,
-          "turnaroundTime": 58
+          "waitingTime": 43,
+          "turnaroundTime": 68
         },
         {
           "name": "P2",
-          "waitingTime": 19,
-          "turnaroundTime": 37
+          "waitingTime": 24,
+          "turnaroundTime": 42
         },
         {
           "name": "P3",
-          "waitingTime": 55,
-          "turnaroundTime": 77
+          "waitingTime": 71,
+          "turnaroundTime": 93
         },
         {
           "name": "P4",
-          "waitingTime": 0,
-          "turnaroundTime": 15
+          "waitingTime": 7,
+          "turnaroundTime": 22
         },
         {
           "name": "P5",
-          "waitingTime": 72,
-          "turnaroundTime": 92
+          "waitingTime": 84,
+          "turnaroundTime": 104
         },
         {
           "name": "P6",
-          "waitingTime": 88,
-          "turnaroundTime": 100
+          "waitingTime": 61,
+          "turnaroundTime": 73
         }
       ]
     },
@@ -674,59 +672,64 @@
       "executionOrder": [
         "P1",
         "P2",
-        "P4",
+        "P1",
         "P2",
-        "P5",
-        "P5",
-        "P5",
-        "P5",
-        "P5",
+        "P3",
+        "P4",
         "P1",
-        "P1",
-        "P1",
-        "P1",
-        "P3",
-        "P3",
-        "P3",
-        "P3",
-        "P3",
-        "P3",
-        "P3",
+        "P5",
         "P6",
+        "P5",
+        "P6",
+        "P5",
+        "P6",
+        "P5",
+        "P6",
+        "P3",
+        "P5",
+        "P1",
+        "P7",
+        "P3",
+        "P7",
+        "P3",
+        "P7",
+        "P3",
+        "P7",
+        "P3",
         "P7"
       ],
-      "averageWaitingTime": 22.142857142857142,
-      "averageTurnaroundTime": 32.142857142857146,
+      "averageWaitingTime": 20.285714285714285,
+      "averageTurnaroundTime": 30.285714285714285,
       "processes": [
         {
           "name": "P1",
-          "waitingTime": 27,
-          "turnaroundTime": 41
+          "waitingTime": 34,
+          "turnaroundTime": 48
         },
         {
           "name": "P2",
-          "waitingTime": 9,
-          "turnaroundTime": 18
+          "waitingTime": 0,
+          "turnaroundTime": 9
         },
         {
           "name": "P3",
-          "waitingTime": 34,
-          "turnaroundTime": 50
+          "waitingTime": 45,
+          "turnaroundTime": 61
         },
         {
           "name": "P4",
-          "waitingTime": 4,
-          "turnaroundTime": 11
+          "waitingTime": 5,
+          "turnaroundTime": 12
         },
         {
           "name": "P5",
-          "waitingTime": 7,
-          "turnaroundTime": 18
+          "waitingTime": 12,
+          "turnaroundTime": 23
         },
         {
           "name": "P6",
-          "waitingTime": 37,
-          "turnaroundTime": 42
+          "waitingTime": 9,
+          "turnaroundTime": 14
         },
         {
           "name": "P7",

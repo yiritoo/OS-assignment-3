@@ -1,160 +1,204 @@
 package Scheduler;
+
 import model.Process;
 import java.util.*;
 
 public class AG_Scheduler implements Scheduler {
 
-    private final List<Process> allProcesses;
-    private final PriorityQueue<Process> readyQueue;
-
-    public AG_Scheduler(List<Process> processes) {
-        this.allProcesses = processes;
-        this.readyQueue = new PriorityQueue<>(
-                Comparator.comparingInt(Process::getDynamicPriority)
-        );
-    }
+    private Map<Process, Integer> remainingQuantum = new HashMap<>();
 
     @Override
-    public ScheduleResult schedule(List<Process> processes, int contextSwitchTime) {
-        return runAGScheduling(contextSwitchTime);
-    }
+    public ScheduleResult schedule(List<Process> input, int contextSwitch) {
 
-    private int calculatePhaseSlice(int currentQuantum) {
-        return (int) Math.ceil(currentQuantum * 0.25);
-    }
+        List<Process> processes = Process.copyList(input);
+        Queue<Process> readyQueue = new LinkedList<>();
+        List<String> executionOrder = new ArrayList<>();
 
-    private int calculateScenarioTwoIncrease(int remainingQuantum) {
-        return (int) Math.ceil(remainingQuantum / 2.0);
-    }
+        int time = 0;
+        int completed = 0;
+        Process current = null;
+        boolean forceSwitch = false;
 
-    public void updateQuantum(Process process, int timeUsedInQuantum, int preemptionScenario) {
-        int oldQuantum = process.getCurrentQuantum();
-        int remainingQuantum = oldQuantum - timeUsedInQuantum;
-        int newQuantum = 0;
-
-        switch (preemptionScenario) {
-            case 1:
-                newQuantum = oldQuantum + 2;
-                break;
-            case 2:
-                newQuantum = oldQuantum + calculateScenarioTwoIncrease(remainingQuantum);
-                break;
-            case 3:
-                newQuantum = oldQuantum + remainingQuantum;
-                break;
-            case 4:
-                newQuantum = 0;
-                break;
+        // init
+        for (Process p : processes) {
+            remainingQuantum.put(p, p.getInitialQuantum());
         }
 
-        process.setCurrentQuantum(newQuantum);
-        process.logQuantumUpdate();
+        addArrived(readyQueue, processes, time, null);
+
+        while (completed < processes.size()) {
+
+            if (!forceSwitch) {
+                current = readyQueue.poll();
+            }
+            forceSwitch = false;
+
+            if (current == null) {
+                time++;
+                addArrived(readyQueue, processes, time, null);
+                continue;
+            }
+
+            executionOrder.add(current.getName());
+
+            int rq = remainingQuantum.get(current);
+
+            // ================== FCFS (25%) ==================
+            int slice = (int) Math.ceil(0.25 * current.getCurrentQuantum());
+            int exe = Math.min(slice, current.getRemainingBurstTime());
+
+            current.execute(exe);
+            time += exe;
+            rq -= exe;
+
+            remainingQuantum.put(current, rq);
+            addArrived(readyQueue, processes, time, current);
+
+            if (current.isCompleted()) {
+                finish(current, time);
+                completed++;
+                continue;
+            }
+
+            // ================== PRIORITY ==================
+            Process highestPriority = getMostPriority(processes, time);
+
+            if (highestPriority != null && highestPriority != current) {
+
+                int bonus = (int) Math.ceil(rq / 2.0);
+                current.setCurrentQuantum(current.getCurrentQuantum() + bonus);
+                current.logQuantumUpdate();
+
+                remainingQuantum.put(current, current.getCurrentQuantum());
+                readyQueue.add(current);
+
+                current = highestPriority;
+                readyQueue.remove(highestPriority);
+                forceSwitch = true;
+                continue;
+            }
+
+            // execute another 25%
+            exe = Math.min(slice, current.getRemainingBurstTime());
+            current.execute(exe);
+            time += exe;
+            rq -= exe;
+
+            remainingQuantum.put(current, rq);
+            addArrived(readyQueue, processes, time, current);
+
+            if (current.isCompleted()) {
+                finish(current, time);
+                completed++;
+                continue;
+            }
+
+            // ================== SJF ==================
+            Process shortest = getShortest(processes, time);
+
+            if (shortest != current &&
+                    shortest.getRemainingBurstTime() < current.getRemainingBurstTime()) {
+
+                current.setCurrentQuantum(current.getCurrentQuantum() + rq);
+                current.logQuantumUpdate();
+
+                remainingQuantum.put(current, current.getCurrentQuantum());
+                readyQueue.add(current);
+
+                current = shortest;
+                readyQueue.remove(shortest);
+                forceSwitch = true;
+                continue;
+            }
+
+            // run remaining quantum
+            exe = Math.min(rq, current.getRemainingBurstTime());
+            current.execute(exe);
+            time += exe;
+            rq -= exe;
+
+            remainingQuantum.put(current, rq);
+            addArrived(readyQueue, processes, time, current);
+
+            if (current.isCompleted()) {
+                finish(current, time);
+                completed++;
+                continue;
+            }
+
+            // ================== QUANTUM EXHAUSTED ==================
+            current.setCurrentQuantum(current.getCurrentQuantum() + 2);
+            current.logQuantumUpdate();
+            remainingQuantum.put(current, current.getCurrentQuantum());
+            readyQueue.add(current);
+        }
+
+        // ================== RESULT ==================
+        ScheduleResult result = new ScheduleResult();
+        result.executionOrder = executionOrder;
+        result.processes = processes;
+
+        double wt = 0, tat = 0;
+        for (Process p : processes) {
+            wt += p.getWaitingTime();
+            tat += p.getTurnaroundTime();
+        }
+
+        result.avgWaitingTime = wt / processes.size();
+        result.avgTurnaroundTime = tat / processes.size();
+
+        return result;
     }
 
-    public ScheduleResult runAGScheduling(int contextSwitch) {
-        ScheduleResult report = new ScheduleResult();
-        report.processes = allProcesses;
+    // ================== HELPERS ==================
 
-        int currentTime = 0;
-        int completedCount = 0;
-        Process runningProcess = null;
-        List<Process> arrivalList = new ArrayList<>(allProcesses);
-        arrivalList.sort(Comparator.comparingInt(Process::getArrivalTime));
-
-        while (completedCount < allProcesses.size()) {
-            // 1. Move arrived processes to Ready Queue
-            Iterator<Process> it = arrivalList.iterator();
-            while (it.hasNext()) {
-                Process p = it.next();
-                if (p.getArrivalTime() <= currentTime) {
-                    readyQueue.add(p);
-                    it.remove();
-                }
-            }
-
-            // 2. If CPU is idle, jump time to the next arrival
-            if (runningProcess == null && readyQueue.isEmpty()) {
-                if (!arrivalList.isEmpty()) {
-                    currentTime = arrivalList.get(0).getArrivalTime();
-                    continue; // Restart loop at new time
-                }
-            }
-
-            if (runningProcess == null && !readyQueue.isEmpty()) {
-                runningProcess = readyQueue.poll();
-                // Context switch only if time > 0 to avoid prepending at start
-                if (currentTime > 0) currentTime += contextSwitch;
-                report.executionOrder.add(runningProcess.getName());
-            }
-
-            if (runningProcess != null) {
-                int q = runningProcess.getCurrentQuantum();
-                int q1_limit = calculatePhaseSlice(q);
-                int q2_limit = q1_limit + calculatePhaseSlice(q);
-
-                boolean preempted = false;
-
-                // Execute logic with time advancement
-                while (runningProcess.getTimeExecutedInCurrentQuantum() < q) {
-                    runningProcess.execute(1);
-                    currentTime++;
-
-                    // Check arrivals during execution
-                    it = arrivalList.iterator();
-                    while (it.hasNext()) {
-                        Process p = it.next();
-                        if (p.getArrivalTime() <= currentTime) {
-                            readyQueue.add(p);
-                            it.remove();
-                        }
-                    }
-
-                    if (runningProcess.isCompleted()) {
-                        updateQuantum(runningProcess, runningProcess.getTimeExecutedInCurrentQuantum(), 4);
-                        completedCount++;
-                        runningProcess.setCompletionTime(currentTime);
-                        runningProcess = null;
-                        break;
-                    }
-
-                    // Preemption logic (Scenario ii and iii)
-                    int used = runningProcess.getTimeExecutedInCurrentQuantum();
-                    if (used == q1_limit || used == q2_limit || used > q2_limit) {
-                        // Check for preemption here based on Scenario ii/iii rules
-                        // If preempted, set preempted = true and break this inner while
-                    }
-                }
-
-                // Scenario i: Used all quantum
-                if (runningProcess != null && !preempted) {
-                    updateQuantum(runningProcess, q, 1);
-                    readyQueue.add(runningProcess);
-                    runningProcess = null;
-                }
-            }
-        }
-        calculateMetrics(report);
-        return report;
+    private void finish(Process p, int time) {
+        p.setCompletionTime(time);
+        p.setTurnaroundTime(time - p.getArrivalTime());
+        p.setWaitingTime(p.getTurnaroundTime() - p.getTotalBurstTime());
+        p.setCurrentQuantum(0);
+        p.logQuantumUpdate();
     }
 
-    private void calculateMetrics(ScheduleResult result) {
-        double totalWT = 0;
-        double totalTAT = 0;
-
-        for (Process p : result.processes) {
-            int tat = p.getCompletionTime() - p.getArrivalTime();
-            p.setTurnaroundTime(tat);
-            int wt = tat - p.getTotalBurstTime();
-            p.setWaitingTime(wt);
-
-            totalTAT += tat;
-            totalWT += wt;
-            result.quantumHistoryLines.add(p.getName() + " History: " + p.getQuantumHistory().toString());
+    private void addArrived(
+            Queue<Process> q,
+            List<Process> all,
+            int time,
+            Process running
+    ) {
+        for (Process p : all) {
+            if (p.getArrivalTime() <= time &&
+                    !p.isCompleted() &&
+                    p != running &&
+                    !q.contains(p)) {
+                q.add(p);
+            }
         }
+    }
 
-        if (!result.processes.isEmpty()) {
-            result.avgTurnaroundTime = totalTAT / result.processes.size();
-            result.avgWaitingTime = totalWT / result.processes.size();
+    private Process getMostPriority(List<Process> all, int time) {
+        Process best = null;
+        for (Process p : all) {
+            if (p.getArrivalTime() <= time && !p.isCompleted()) {
+                if (best == null ||
+                        p.getDynamicPriority() < best.getDynamicPriority()) {
+                    best = p;
+                }
+            }
         }
+        return best;
+    }
+
+    private Process getShortest(List<Process> all, int time) {
+        Process best = null;
+        for (Process p : all) {
+            if (p.getArrivalTime() <= time && !p.isCompleted()) {
+                if (best == null ||
+                        p.getRemainingBurstTime() < best.getRemainingBurstTime()) {
+                    best = p;
+                }
+            }
+        }
+        return best;
     }
 }
