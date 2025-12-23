@@ -9,11 +9,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class test {
-    // ==========================================
-    // CONFIGURATION: Choose your output mode here
-    // true  = Write results to 'output.json'
-    // false = Print results to Terminal
-    // ==========================================
+
     private static final boolean OUTPUT_TO_JSON = false;
 
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -102,11 +98,10 @@ public class test {
     }
 
     private static void runAndComparePriority(String fileName, String schedulerName, PriorityScheduler s, List<Process> data, int cs, int agingInterval, Map<String, Object> expected) {
-        // Note: Assuming schedule() takes agingInterval. If not, remove that argument.
-        handleResult(fileName, schedulerName, s.schedule(Process.copyList(data), cs), expected);
+        // FIX: Pass agingInterval to the schedule method
+        handleResult(fileName, schedulerName, s.schedule(Process.copyList(data), cs, agingInterval), expected);
     }
 
-    // Unified handler that decides whether to Print or Save based on the flag
     private static void handleResult(String fileName, String schedulerName, ScheduleResult actual, Map<String, Object> expected) {
         if (OUTPUT_TO_JSON) {
             addToJsonList(fileName, schedulerName, actual, expected);
@@ -115,7 +110,6 @@ public class test {
         }
     }
 
-    // Logic for Terminal Output
     private static void printToTerminal(String name, ScheduleResult actual, Map<String, Object> expected) {
         System.out.println("Scheduler: " + name);
         System.out.println("Result");
